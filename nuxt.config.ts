@@ -9,7 +9,6 @@ export default defineNuxtConfig({
   tailwindcss: {
     config: {
       content: [
-        './app/**/*.{vue,ts,js}',
         './pages/**/*.{vue,ts,js}',
         './components/**/*.{vue,ts,js}',
         './layouts/**/*.{vue,ts,js}',
