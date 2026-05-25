@@ -30,12 +30,65 @@ export const currentUser: AdminUser = {
 
 /** Dashboard overview stats */
 export const dashboardStats: DashboardStats = {
-  totalRentCollected: 285000,
-  farmRevenue: 45600,
-  totalExpenses: 98700,
-  netBalance: 231900,
+  totalRentCollected: 124500,
+  farmRevenue: 38750,
+  totalExpenses: 22300,
+  netBalance: 140950,
   activeTenants: 24,
   pendingOrders: 7,
   employees: 12,
-  openRequests: 4,
+  openRequests: 3,
 }
+
+export interface ExpenseBreakdownItem {
+  category: string
+  amount: number
+}
+
+export const expenseBreakdown: ExpenseBreakdownItem[] = [
+  { category: 'Maintenance', amount: 8400 },
+  { category: 'Salaries', amount: 9200 },
+  { category: 'Utilities', amount: 2800 },
+  { category: 'Miscellaneous', amount: 1900 },
+]
+
+export interface PopularProduct {
+  name: string
+  category: string
+  orders: number | null
+}
+
+export const popularProducts: PopularProduct[] = [
+  { name: 'Chicken Eggs', category: 'Egg · Chicken', orders: 124 },
+  { name: 'Fresh Tomatoes', category: 'Vegetable', orders: null },
+]
+
+export interface MonthlyChartDataPoint {
+  month: string
+  income: number
+  expenses: number
+}
+
+export const incomeVsExpenses: MonthlyChartDataPoint[] = [
+  { month: 'Jan', income: 85000, expenses: 32000 },
+  { month: 'Feb', income: 92000, expenses: 28000 },
+  { month: 'Mar', income: 78000, expenses: 35000 },
+  { month: 'Apr', income: 105000, expenses: 30000 },
+  { month: 'May', income: 112000, expenses: 27000 },
+  { month: 'Jun', income: 124500, expenses: 22300 },
+]
+
+export interface RentCollectionDataPoint {
+  month: string
+  collected: number
+  target: number
+}
+
+export const rentCollectionTrend: RentCollectionDataPoint[] = [
+  { month: 'Jan', collected: 80000, target: 85000 },
+  { month: 'Feb', collected: 88000, target: 85000 },
+  { month: 'Mar', collected: 75000, target: 85000 },
+  { month: 'Apr', collected: 95000, target: 90000 },
+  { month: 'May', collected: 100000, target: 90000 },
+  { month: 'Jun', collected: 124500, target: 110000 },
+]
