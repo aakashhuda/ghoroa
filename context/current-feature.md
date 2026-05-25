@@ -20,7 +20,7 @@ In Progress
 ## Notes
 
 - Refer to screenshots for visual reference
-- Mock data lives in `src/lib/mock-data.ts`
+- Mock data lives in `app/lib/mock-data.ts`
 - Phase 2 and 3 specs are in `context/features/`
 - Phase 1 only focuses on structure + top bar — no data rendering yet
 
