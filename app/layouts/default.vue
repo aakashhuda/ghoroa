@@ -1,17 +1,16 @@
 <template>
   <div class="min-h-screen bg-gray-50">
     <!-- Top Bar -->
-    <header class="flex items-center justify-between border-b bg-white px-6 py-3">
+    <header
+      class="flex items-center justify-between border-b bg-white px-6 py-3"
+    >
       <div class="flex items-center gap-4">
-        <h1 class="text-xl font-bold gradient-text">GhorOA</h1>
-        <a-input-search
-          placeholder="Search..."
-          style="width: 320px"
-        />
+        <h1 class="text-xl font-bold gradient-text">Ghoroa</h1>
+        <a-input-search placeholder="Search..." style="width: 320px" />
       </div>
 
       <a-dropdown :trigger="['click']">
-        <a-button type="primary">
+        <a-button type="primary" class="flex items-center">
           <template #icon>
             <PlusOutlined />
           </template>
@@ -35,7 +34,9 @@
     <!-- Body: Sidebar + Main -->
     <div class="flex">
       <!-- Sidebar Placeholder -->
-      <aside class="flex h-[calc(100vh-60px)] w-60 flex-col border-r bg-white p-4">
+      <aside
+        class="flex h-[calc(100vh-60px)] w-60 flex-col border-r bg-white p-4"
+      >
         <h2 class="text-lg font-semibold text-gray-400">Sidebar</h2>
       </aside>
 
@@ -48,5 +49,9 @@
 </template>
 
 <script setup lang="ts">
-import { PlusOutlined, UserOutlined, TeamOutlined } from '@ant-design/icons-vue'
+import {
+  PlusOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from "@ant-design/icons-vue";
 </script>
