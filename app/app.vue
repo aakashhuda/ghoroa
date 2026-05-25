@@ -1,16 +1,23 @@
 <template>
   <a-config-provider :theme="lightTheme">
     <div class="m-5">
-      <a-button type="primary"  @click="showModal">Open Modal with async logic</a-button>
-      <a-modal v-model:open="open" title="Title" :confirm-loading="confirmLoading" @ok="handleOk">
+      <a-button type="primary" @click="showModal"
+        >Open Modal with async logic</a-button
+      >
+      <a-modal
+        v-model:open="open"
+        title="Title"
+        :confirm-loading="confirmLoading"
+        @ok="handleOk"
+      >
         <p>{{ modalText }}</p>
       </a-modal>
     </div>
   </a-config-provider>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue';
 import { theme } from "ant-design-vue";
+import { ref } from "vue";
 
 const darkTheme = {
   algorithm: theme.darkAlgorithm,
@@ -50,7 +57,7 @@ const lightTheme = {
   },
 };
 
-const modalText = ref<string>('Content of the modal');
+const modalText = ref<string>("Content of the modal");
 const open = ref<boolean>(false);
 const confirmLoading = ref<boolean>(false);
 
@@ -59,7 +66,7 @@ const showModal = () => {
 };
 
 const handleOk = () => {
-  modalText.value = 'The modal will be closed after two seconds';
+  modalText.value = "The modal will be closed after two seconds";
   confirmLoading.value = true;
   setTimeout(() => {
     open.value = false;
@@ -67,4 +74,3 @@ const handleOk = () => {
   }, 2000);
 };
 </script>
-
