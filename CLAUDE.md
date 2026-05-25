@@ -6,10 +6,10 @@ A full-stack property management platform built with Nuxt.js, enabling building 
 
 Read the following to get the full context of the project
 
-- @context/project-overview.md
-- @context/coding-standards.md
-- @context/ai-interaction.md
-- @context/current-feature.md
+- `@context/project-overview.md`
+- `@context/coding-standards.md`
+- `@context/ai-interaction.md`
+- `@context/current-feature.md`
 
 ## Commands
 
@@ -46,4 +46,4 @@ This project uses Prisma with Neon (serverless PostgreSQL).
 
 Read the following to get the full architecture of the project
 
-- @context/architecture.md
+- `@context/architecture.md`
