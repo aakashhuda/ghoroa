@@ -11,6 +11,11 @@ Read the following to get the full context of the project
 - `@context/ai-interaction.md`
 - `@context/current-feature.md`
 
+## UI References
+
+- `context/screenshots/screenshot-dashboard-sidebar.png`
+- `context/screenshots/screenshot-dashboard-content.png`
+
 ## Commands
 
 ```bash
