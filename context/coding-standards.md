@@ -48,7 +48,7 @@ Example v4 configuration:
 
 - Components: `components/[feature]/ComponentName.vue`
 - Pages: `pages/[feature]/Page[Route]/.vue`
-- Server: `server/api/[feature].ts`
+- Server: `server/api/[feature]/[filename].ts`
 - Stores: `stores/[feature].ts`
 - Layout: `layouts/default.ts`
 
