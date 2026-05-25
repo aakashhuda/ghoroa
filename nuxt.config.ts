@@ -6,13 +6,4 @@ export default defineNuxtConfig({
   antd: {
     // Options
   },
-  tailwindcss: {
-    config: {
-      content: [
-        './pages/**/*.{vue,ts,js}',
-        './components/**/*.{vue,ts,js}',
-        './layouts/**/*.{vue,ts,js}',
-      ],
-    },
-  },
 })
