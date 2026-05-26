@@ -7,8 +7,8 @@ This is phase 2 of 3 for the dashboard UI layout. Use the screenshot referenced 
 ## Requirements for phase 2
 
 - Collapsible sidebar
-- Dashboard Metrics -
-- Dashboard Tables
+- Links are provided below under the Dashboard Data Reference
+- Dashboard Main content stays empty
 - User avatar area at the bottom
 - Drawer icon to open/close sidebar
 - Always a drawer on mobile view
@@ -17,6 +17,7 @@ This is phase 2 of 3 for the dashboard UI layout. Use the screenshot referenced 
 ## Dashboard Data Reference
 
 - @contexts/docs/dashboard-ui-data.md
+- @context/docs/dashboard-sidebar.md
 
 ## References
 

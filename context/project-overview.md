@@ -653,58 +653,71 @@ const lightTheme = {
 
 ```
 ghoroa/
+├── .claude/                   # Claude Code settings
+├── .vscode/
+│   └── settings.json
 ├── assets/
 │   └── css/
-│       └── main.css          # Tailwind base + gradient utilities
-├── components/
-│   ├── layout/
-│   │   ├── AppSidebar.vue
-│   │   ├── AppHeader.vue
-│   │   └── AppDrawer.vue     # Quick-create/view drawer
-│   ├── rent/
-│   ├── employee/
-│   ├── farm/
-│   └── shared/
-│       ├── DataTable.vue
-│       ├── StatCard.vue
-│       └── FileUpload.vue
-├── composables/
-│   ├── useAuth.js
-│   ├── useToast.js
-│   └── useExport.js
-├── pages/
-│   ├── index.vue             # Dashboard
-│   ├── rent/
-│   │   ├── index.vue
-│   │   └── [id].vue
-│   ├── employees/
-│   ├── maintenance/
-│   ├── farm/
-│   ├── accounts/
-│   └── reports/
-├── server/
-│   ├── api/
+│       └── main.css           # Tailwind base + gradient utilities
+├── app/
+│   ├── app.vue                # Root component with Ant Config Provider
+│   ├── components/
+│   │   ├── dashboard/
+│   │   │   └── DashboardView.vue
+│   │   ├── employee/
+│   │   ├── farm/
+│   │   ├── layout/            # AppSidebar, AppHeader, AppDrawer (to be built)
 │   │   ├── rent/
+│   │   └── shared/
+│   ├── composables/
+│   ├── layouts/
+│   │   └── default.vue        # Authenticated app shell — sidebar + header + main slot
+│   ├── lib/
+│   │   └── mock-data.ts       # Mock data for dashboard/dev
+│   ├── pages/
+│   │   ├── accounts/
+│   │   ├── dashboard/
+│   │   │   └── index.vue
 │   │   ├── employees/
 │   │   ├── farm/
-│   │   ├── accounts/
-│   │   └── upload.js
-│   └── middleware/
-│       └── auth.js
-├── stores/
-│   ├── auth.js
-│   ├── tenant.js
-│   ├── employee.js
-│   └── farm.js
-├── layouts/
-│   ├── default.vue           # Authenticated app shell — sidebar + header + main slot
-│   ├── auth.vue              # Minimal centered layout for login/register pages
-│   └── guest.vue             # Public-facing layout for customer shop/order pages
+│   │   ├── maintenance/
+│   │   ├── rent/
+│   │   └── reports/
+│   ├── server/
+│   │   ├── api/
+│   │   │   ├── accounts/
+│   │   │   ├── employees/
+│   │   │   ├── farm/
+│   │   │   └── rent/
+│   │   └── middleware/
+│   ├── services/
+│   │   └── AccountServices.js
+│   └── stores/
+├── context/
+│   ├── project-overview.md
+│   ├── architecture.md
+│   ├── coding-standards.md
+│   ├── ai-interaction.md
+│   ├── current-feature.md
+│   ├── docs/
+│   │   ├── dashboard-sidebar.md
+│   │   └── dashboard-ui-data.md
+│   ├── features/
+│   │   ├── dashboard-ui-phase-1.md
+│   │   ├── dashboard-ui-phase-2.md
+│   │   └── dashboard-ui-phase-3.md
+│   └── screenshots/
 ├── prisma/
-│   ├── schema.prisma
 │   └── migrations/
-├── nuxt.config.js
-└── .env
+├── public/
+│   ├── favicon.ico
+│   └── robots.txt
+├── .gitignore
+├── CLAUDE.md
+├── nuxt.config.ts
+├── package.json
+├── README.md
+└── tsconfig.json
 ```
 
 ---
