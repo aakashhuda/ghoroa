@@ -5,7 +5,16 @@
       class="flex items-center justify-between border-b bg-white px-6 py-3"
     >
       <div class="flex items-center gap-4">
-        <h1 class="text-xl font-bold gradient-text">Ghoroa</h1>
+        <!-- Mobile menu toggle -->
+        <MenuOutlined
+          class="cursor-pointer text-lg lg:hidden"
+          @click="drawerOpen = true"
+        />
+        <!-- Desktop collapse toggle -->
+        <MenuFoldOutlined
+          class="hidden cursor-pointer text-lg lg:block"
+          @click="sidebarCollapsed = !sidebarCollapsed"
+        />
         <a-input-search placeholder="Search..." style="width: 320px" />
       </div>
 
@@ -32,13 +41,28 @@
     </header>
 
     <!-- Body: Sidebar + Main -->
-    <div class="flex">
-      <!-- Sidebar Placeholder -->
-      <aside
-        class="flex h-[calc(100vh-60px)] w-60 flex-col border-r bg-white p-4"
+    <div class="flex h-[calc(100vh-64px)]">
+      <!-- Desktop Sidebar -->
+      <DashboardSidebar
+        v-model:collapsed="sidebarCollapsed"
+        class="max-lg:hidden"
+      />
+
+      <!-- Mobile Drawer -->
+      <a-drawer
+        v-model:open="drawerOpen"
+        placement="left"
+        :width="280"
+        :closable="true"
+        @close="drawerOpen = false"
       >
-        <h2 class="text-lg font-semibold text-gray-400">Sidebar</h2>
-      </aside>
+        <div class="py-4">
+          <DashboardSidebar
+            :collapsed="false"
+            @navigate="drawerOpen = false"
+          />
+        </div>
+      </a-drawer>
 
       <!-- Main Content -->
       <main class="flex-1 overflow-auto p-6">
@@ -49,9 +73,15 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import {
   PlusOutlined,
   TeamOutlined,
   UserOutlined,
-} from "@ant-design/icons-vue";
+  MenuOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons-vue'
+
+const sidebarCollapsed = ref(false)
+const drawerOpen = ref(false)
 </script>
