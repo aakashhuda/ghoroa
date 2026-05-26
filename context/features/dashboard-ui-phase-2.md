@@ -9,10 +9,14 @@ This is phase 2 of 3 for the dashboard UI layout. Use the screenshot referenced 
 - Collapsible sidebar
 - Dashboard Metrics -
 - Dashboard Tables
-- Most recent collections
 - User avatar area at the bottom
 - Drawer icon to open/close sidebar
 - Always a drawer on mobile view
+- For all the components use Ant Vue
+
+## Dashboard Data Reference
+
+- @contexts/docs/dashboard-ui-data.md
 
 ## References
 

@@ -1,29 +1,32 @@
 # Current Feature
 
-Dashboard UI — Phase 1
+Dashboard UI — Phase 2
 
 ## Status
 
-Completed
+In Progress
 
 ## Goals
 
-- Create dashboard directory structure in `pages/` and `components/`
-- Dashboard route at `/dashboard`
-- Set up the correct dashboard layout in `layouts/default.vue`
-- Create the Dashboard Page and Component with only the page title
-- Top bar with search and a "New" button (with dropdown for Customer / Tenant options)
-- Placeholder sections for sidebar and main area (just `<h2>` placeholders, no design)
-- Light mode by default
-- Use Ant Design Vue 4 for all components
+- Collapsible sidebar with navigation items
+- Dashboard metrics cards (financial + operational)
+- Dashboard tables (most recent collections, expense breakdown, popular products)
+- Charts section (Income vs Expenses, Rent Collection Trend)
+- User avatar area at the bottom of the sidebar
+- Drawer icon to toggle sidebar open/close
+- Always a drawer on mobile view
+- Import mock data directly from `app/lib/mock-data.ts`
 
 ## Notes
 
-- Refer to screenshots for visual reference
+- Refer to screenshots: `screenshot-dashboard-sidebar.png` and `screenshot-dashboard-content.png`
+- Dashboard data reference: `context/docs/dashboard-ui-data.md`
 - Mock data lives in `app/lib/mock-data.ts`
-- Phase 2 and 3 specs are in `context/features/`
-- Phase 1 only focuses on structure + top bar — no data rendering yet
+- Phase 1 spec: `context/features/dashboard-ui-phase-1.md`
+- Phase 3 spec: `context/features/dashboard-ui-phase-3.md`
+- Use Ant Design Vue 4 for all components
+- Light mode by default
 
 ## History
 
-- 2026-05-26: Started Phase 1 — scaffold layout, top bar, and placeholder areas
+- 2026-05-26: Completed Phase 1 — scaffold layout, top bar, and placeholder areas
