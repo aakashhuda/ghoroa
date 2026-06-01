@@ -14,11 +14,16 @@ This is phase 3 of 3 for the dashboard UI layout. Use the screenshot referenced 
 - Fix the icons for Rooftop Farm in the sidebar. Select a more relatable icon
 - In the @app/components/dashboard/DashboardView.vue component create Analytics (Metrices, Tables, Lists) referenced in the screenshots referenced @context/screenshots/dashboard-ui-main.png. Use the mock data in @app/lib/mock-data.ts
 - Cards in will follow the same UI pattern in of shadow, border, hover effect radius from the @context/screenshots/dashboard-ui-main.png screenshot
+- For complete color pallet reference for tailwind as well as Ant Vue theme check @context/docs/dashboard-css-reference.md & @context/docs/dashboard-tailwind-color-config.md
+- Can update/create our tailwind config accordingly
+- Priority is to match the dasboard content color pallent and use it in everywhere. eg. Sidebar/Whole project
 
 ## References
 
-- @context/screenshots/dashboard-ui-main.png
-- @context/screenshots/dashboard-sidebar.png
+- @context/docs/dashboard-css-reference.md
+- @context/docs/dashboard-tailwind-color-config.md
+- @context/screenshots/screenshot-dasboard-main-content.png
+- @context/screenshots/screenshot-dashboard-sidebar.png
 - @context/project-overview.md
 - @app/lib/mock-data.ts
 - @context/features/dashboard-phase-1-spec.md
