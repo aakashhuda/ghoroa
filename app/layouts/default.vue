@@ -1,9 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="flex flex-col h-screen" style="background-color: #f4f6fb">
     <!-- Top Bar -->
-    <header
-      class="flex items-center justify-between border-b bg-white px-6 py-3"
-    >
+    <header class="app-header justify-between flex-shrink-0">
       <div class="flex items-center gap-4">
         <!-- Mobile menu toggle -->
         <MenuOutlined
@@ -41,11 +39,11 @@
     </header>
 
     <!-- Body: Sidebar + Main -->
-    <div class="flex h-[calc(100vh-64px)]">
+    <div class="flex flex-1 overflow-hidden">
       <!-- Desktop Sidebar -->
       <DashboardSidebar
         v-model:collapsed="sidebarCollapsed"
-        class="max-lg:hidden"
+        class="max-lg:hidden flex-shrink-0"
       />
 
       <!-- Mobile Drawer -->
