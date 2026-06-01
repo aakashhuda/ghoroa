@@ -7,7 +7,7 @@ This is phase 3 of 3 for the dashboard UI layout. Use the screenshot referenced 
 ## Requirements for phase 3
 
 - In main.css import tailwind utilities and use @ to create classes using tailwind classes.
-- Make changes in the Ant Vue theme colors to match the screenshots color pallete or design sense referenced in the screenshots of dashboard. If neccessary create custom classes to match the color pallet.
+- Make changes in the Ant Vue theme colors to match the screenshots color pallete or design sense referenced in the screenshots of dashboard main content. If neccessary create custom classes to match the color pallet.
 - Update the new color pallet in the @context/project-overview.md
 - Selected background colors on the sidebar should also reflect the new color theme. The whole project will be considered for change
 - Decrease the border radius globally. Make it as reusable through out the project. New Border radius reference is given in @context/screenshots/dashboard-ui-main.png.

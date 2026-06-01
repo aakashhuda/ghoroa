@@ -10,11 +10,12 @@ Read the following to get the full context of the project
 - `@context/coding-standards.md`
 - `@context/ai-interaction.md`
 - `@context/current-feature.md`
+- `@context/architecture.md`
 
 ## UI References
 
 - `context/screenshots/screenshot-dashboard-sidebar.png`
-- `context/screenshots/screenshot-dashboard-content.png`
+- `context/screenshots/screenshot-dashboard-main-content.png`
 
 ## Commands
 
@@ -46,9 +47,3 @@ This project uses Prisma with Neon (serverless PostgreSQL).
 | File storage | Cloudflare R2 via `/api/upload`                                     |
 | ORM          | Prisma 7                                                            |
 | DB           | Neon (serverless PostgreSQL)                                        |
-
-## Architecture
-
-Read the following to get the full architecture of the project
-
-- `@context/architecture.md`
