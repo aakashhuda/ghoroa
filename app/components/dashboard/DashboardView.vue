@@ -24,7 +24,7 @@
 
     <!-- Primary metric cards -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
-      <div v-for="card in primaryCards" :key="card.key" class="metric-card">
+      <div v-for="card in primaryCards" :key="card.key" class="card p-5 card-hover">
         <div class="flex items-start justify-between mb-3">
           <div class="icon-wrap" :style="{ background: card.iconBg }">
             <component
@@ -57,7 +57,7 @@
       <div
         v-for="card in secondaryCards"
         :key="card.key"
-        class="metric-card flex items-center gap-4"
+        class="card p-5 card-hover flex items-center gap-4"
       >
         <div
           class="icon-wrap flex-shrink-0"
@@ -80,7 +80,7 @@
     <!-- Charts row -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
       <!-- Income vs Expense chart (2/3 width) -->
-      <div class="chart-card lg:col-span-2">
+      <div class="card p-6 lg:col-span-2">
         <div class="flex items-center justify-between mb-5">
           <div>
             <h3 class="text-base font-semibold text-gray-800 mb-0.5">
@@ -105,7 +105,7 @@
       </div>
 
       <!-- Expense breakdown donut (1/3 width) -->
-      <div class="chart-card">
+      <div class="card p-6">
         <div class="mb-5">
           <h3 class="text-base font-semibold text-gray-800 mb-0.5">
             Expense Breakdown
@@ -150,7 +150,7 @@
     <!-- Rent trend + Farm products row -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
       <!-- Rent collection trend -->
-      <div class="chart-card lg:col-span-2">
+      <div class="card p-6 lg:col-span-2">
         <div class="flex items-center justify-between mb-5">
           <div>
             <h3 class="text-base font-semibold text-gray-800 mb-0.5">
@@ -175,7 +175,7 @@
       </div>
 
       <!-- Popular farm products -->
-      <div class="chart-card">
+      <div class="card p-6">
         <div class="flex items-center justify-between mb-4">
           <div>
             <h3 class="text-base font-semibold text-gray-800 mb-0.5">
@@ -225,7 +225,7 @@
     <!-- Orders + Tenant requests row -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
       <!-- Recent orders -->
-      <div class="chart-card">
+      <div class="card p-6">
         <div class="flex items-center justify-between mb-4">
           <div>
             <h3 class="text-base font-semibold text-gray-800 mb-0.5">
@@ -271,7 +271,7 @@
       </div>
 
       <!-- Tenant requests -->
-      <div class="chart-card">
+      <div class="card p-6">
         <div class="flex items-center justify-between mb-4">
           <div>
             <h3 class="text-base font-semibold text-gray-800 mb-0.5">
@@ -347,7 +347,7 @@
     <!-- Bottom row: Order metrics + Account balances + Recent activity -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
       <!-- Order metrics -->
-      <div class="chart-card">
+      <div class="card p-6">
         <h3 class="text-base font-semibold text-gray-800 mb-4">
           Order Metrics
         </h3>
@@ -371,7 +371,7 @@
       </div>
 
       <!-- Account balances -->
-      <div class="chart-card">
+      <div class="card p-6">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-base font-semibold text-gray-800 m-0">
             Account Balances
@@ -421,7 +421,7 @@
       </div>
 
       <!-- Recent activity feed -->
-      <div class="chart-card">
+      <div class="card p-6">
         <h3 class="text-base font-semibold text-gray-800 mb-4">
           Recent Activity
         </h3>
