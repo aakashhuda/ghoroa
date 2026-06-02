@@ -55,10 +55,7 @@
         @close="drawerOpen = false"
       >
         <div class="py-4">
-          <DashboardSidebar
-            :collapsed="false"
-            @navigate="drawerOpen = false"
-          />
+          <DashboardSidebar :collapsed="false" @navigate="drawerOpen = false" />
         </div>
       </a-drawer>
 
@@ -71,15 +68,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import {
+  MenuFoldOutlined,
+  MenuOutlined,
   PlusOutlined,
   TeamOutlined,
   UserOutlined,
-  MenuOutlined,
-  MenuFoldOutlined,
-} from '@ant-design/icons-vue'
+} from "@ant-design/icons-vue";
+import { ref } from "vue";
 
-const sidebarCollapsed = ref(false)
-const drawerOpen = ref(false)
+const sidebarCollapsed = ref(false);
+const drawerOpen = ref(false);
 </script>
