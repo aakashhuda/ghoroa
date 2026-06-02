@@ -14,6 +14,7 @@ Here we'll try to polish the UI that we have already created. There are going to
 - For mobile device shorten the search input width and position it beside the + New button. This + New button should only have the icon for the mobile device.
 - Collapse icon in the sidebar should be changed to something more modern looking hamburger icon available here
 - For mobile device the drawer background color should have the same color of the sidebar. And the sidebar should cover the whole drawer rather than having any padding which is uneccessary.
+- When I reload the page it takes time to get the total styling of the project. Please try once to fix it only.
 
 ## References
 
