@@ -1,19 +1,10 @@
 <template>
   <aside
     :class="[
-      'flex flex-col border-r bg-white h-full',
-      collapsed ? 'w-[80px]' : 'w-[240px]'
+      'flex flex-col md:border-r bg-white h-full',
+      collapsed ? 'w-[80px]' : 'md:w-[240px] w-full',
     ]"
   >
-    <!-- Logo -->
-    <div class="flex h-16 shrink-0 items-center border-b px-5">
-      <NuxtLink to="/dashboard" class="flex items-center gap-2">
-        <span class="text-xl font-bold gradient-text">
-          {{ collapsed ? 'G' : 'Ghoroa' }}
-        </span>
-      </NuxtLink>
-    </div>
-
     <!-- Navigation Menu -->
     <div class="flex-1 overflow-y-auto py-2">
       <a-menu
@@ -42,22 +33,42 @@
           <a-sub-menu key="rent-management">
             <template #icon><HomeOutlined /></template>
             <template #title><span>Rent Management</span></template>
-            <a-menu-item key="/tenants" @click="handleNavigate('/tenants')">Tenants</a-menu-item>
-            <a-menu-item key="/rent-collection" @click="handleNavigate('/rent-collection')">Rent Collection</a-menu-item>
-            <a-menu-item key="/advances" @click="handleNavigate('/advances')">Advances</a-menu-item>
-            <a-menu-item key="/notices" @click="handleNavigate('/notices')">Notices</a-menu-item>
-            <a-menu-item key="/invoices" @click="handleNavigate('/invoices')">Invoices</a-menu-item>
-            <a-menu-item key="/requests" @click="handleNavigate('/requests')">Requests</a-menu-item>
+            <a-menu-item key="/tenants" @click="handleNavigate('/tenants')"
+              >Tenants</a-menu-item
+            >
+            <a-menu-item
+              key="/rent-collection"
+              @click="handleNavigate('/rent-collection')"
+              >Rent Collection</a-menu-item
+            >
+            <a-menu-item key="/advances" @click="handleNavigate('/advances')"
+              >Advances</a-menu-item
+            >
+            <a-menu-item key="/notices" @click="handleNavigate('/notices')"
+              >Notices</a-menu-item
+            >
+            <a-menu-item key="/invoices" @click="handleNavigate('/invoices')"
+              >Invoices</a-menu-item
+            >
+            <a-menu-item key="/requests" @click="handleNavigate('/requests')"
+              >Requests</a-menu-item
+            >
           </a-sub-menu>
           <a-menu-item key="/employees" @click="handleNavigate('/employees')">
             <template #icon><TeamOutlined /></template>
             <span>Employees</span>
           </a-menu-item>
-          <a-menu-item key="/maintenance" @click="handleNavigate('/maintenance')">
+          <a-menu-item
+            key="/maintenance"
+            @click="handleNavigate('/maintenance')"
+          >
             <template #icon><ToolOutlined /></template>
             <span>Building Maintenance</span>
           </a-menu-item>
-          <a-menu-item key="/rooftop-farm" @click="handleNavigate('/rooftop-farm')">
+          <a-menu-item
+            key="/rooftop-farm"
+            @click="handleNavigate('/rooftop-farm')"
+          >
             <template #icon><CloudOutlined /></template>
             <span>Rooftop Farm</span>
           </a-menu-item>
@@ -91,25 +102,25 @@
       </a-menu>
     </div>
 
-    <!-- User Avatar + Collapse Toggle -->
-    <div class="shrink-0 border-t p-3">
+    <!-- User Avatar + Collapse Toggle (hidden on desktop) -->
+    <div class="shrink-0 border-t p-3 lg:hidden">
       <div class="flex items-center gap-3">
-        <a-avatar :size="36" class="flex-shrink-0" style="background-color: #16a34a">
+        <a-avatar
+          :size="36"
+          class="flex-shrink-0"
+          style="background-color: #16a34a"
+        >
           <UserOutlined />
         </a-avatar>
         <div v-if="!collapsed" class="min-w-0 flex-1">
-          <p class="truncate text-sm font-medium text-gray-800">Mustafa Kamal</p>
+          <p class="truncate text-sm font-medium text-gray-800">
+            Mustafa Kamal
+          </p>
           <p class="truncate text-xs text-gray-500">Super Admin</p>
         </div>
-        <MenuFoldOutlined
-          v-if="!collapsed"
+        <MenuOutlined
           class="cursor-pointer text-gray-400 hover:text-gray-600"
-          @click="emit('update:collapsed', true)"
-        />
-        <MenuUnfoldOutlined
-          v-else
-          class="cursor-pointer text-gray-400 hover:text-gray-600"
-          @click="emit('update:collapsed', false)"
+          @click="emit('update:collapsed', !collapsed)"
         />
       </div>
     </div>
@@ -117,37 +128,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
 import {
+  BarChartOutlined,
+  CloudOutlined,
   DashboardOutlined,
   HomeOutlined,
+  MenuOutlined,
+  SettingOutlined,
   TeamOutlined,
   ToolOutlined,
-  CloudOutlined,
-  WalletOutlined,
-  BarChartOutlined,
-  SettingOutlined,
   UserOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from '@ant-design/icons-vue'
+  WalletOutlined,
+} from "@ant-design/icons-vue";
+import { ref } from "vue";
+import { useRoute } from "vue-router";
 
 defineProps<{
-  collapsed: boolean
-}>()
+  collapsed: boolean;
+}>();
 
 const emit = defineEmits<{
-  'update:collapsed': [value: boolean]
-  navigate: []
-}>()
+  "update:collapsed": [value: boolean];
+  navigate: [];
+}>();
 
-const route = useRoute()
-const selectedKeys = ref<string[]>([route.path])
-const openKeys = ref<string[]>([])
+const route = useRoute();
+const selectedKeys = ref<string[]>([route.path]);
+const openKeys = ref<string[]>([]);
 
 function handleNavigate(path: string) {
-  navigateTo(path)
-  emit('navigate')
+  navigateTo(path);
+  emit("navigate");
 }
 </script>
