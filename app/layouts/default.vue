@@ -15,9 +15,9 @@
             class="hidden cursor-pointer text-lg lg:block"
             @click="sidebarCollapsed = !sidebarCollapsed"
           />
-          <!-- Logo/Project name -->
+          <!-- Logo -->
           <NuxtLink to="/dashboard" class="flex items-center shrink-0">
-            <span class="text-xl font-bold gradient-text">Ghoroa</span>
+            <img src="/logo.svg" alt="Ghoroa" class="h-8 md:h-9 w-auto" />
           </NuxtLink>
         </div>
         <!-- Right: search + new (pushed right on md+) -->
@@ -46,24 +46,32 @@
               </a-menu>
             </template>
           </a-dropdown>
-          <!-- User avatar (desktop only, moved from sidebar) -->
-          <div
-            class="hidden lg:flex items-center gap-3 pl-4 ml-2 border-l border-gray-200"
-          >
-            <a-avatar
-              :size="32"
-              class="flex-shrink-0"
-              style="background-color: #16a34a"
+          <!-- User avatar with logout dropdown (desktop only) -->
+          <a-dropdown :trigger="['click']">
+            <!-- Avatar trigger -->
+            <div
+              class="hidden lg:flex items-center gap-3 pl-4 ml-2 border-l border-gray-200 cursor-pointer"
             >
-              <UserOutlined />
-            </a-avatar>
-            <div class="min-w-0 leading-tight">
-              <p class="truncate text-sm font-medium text-gray-800">
-                Syed Mahbubul Huda
-              </p>
-              <p class="truncate text-xs text-gray-500">Super Admin</p>
+              <a-avatar :size="32" class="flex-shrink-0 bg-green-600">
+                <UserOutlined />
+              </a-avatar>
+              <div class="min-w-0 leading-tight">
+                <p class="truncate text-sm font-medium text-gray-800">
+                  {{ userName }}
+                </p>
+                <p class="truncate text-xs text-gray-500">{{ userRole }}</p>
+              </div>
             </div>
-          </div>
+            <!-- Dropdown menu -->
+            <template #overlay>
+              <a-menu>
+                <a-menu-item key="logout" @click="handleLogout">
+                  <LogoutOutlined class="mr-2" />
+                  Logout
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
         </div>
       </div>
     </header>
@@ -99,14 +107,44 @@
 <script setup lang="ts">
 import {
   BarsOutlined,
+  LogoutOutlined,
   PlusOutlined,
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons-vue";
-import { ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { signOut } from "~/lib/auth-client";
 
 const sidebarCollapsed = ref(false);
 const drawerOpen = ref(false);
+
+const session = ref<{ user: { name: string; userType: string } | null } | null>(
+  null
+);
+
+onMounted(async () => {
+  try {
+    const data = await $fetch("/api/auth/get-session");
+    session.value = data;
+  } catch {
+    session.value = null;
+  }
+});
+
+const userName = computed(() => session.value?.user?.name || "User");
+const userRole = computed(() => {
+  const type = session.value?.user?.userType;
+  if (!type) return "User";
+  return type
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .replace(/\b\w/g, (c: string) => c.toUpperCase());
+});
+
+async function handleLogout() {
+  await signOut();
+  await navigateTo("/auth/login");
+}
 </script>
 
 <style scoped>
