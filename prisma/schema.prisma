@@ -1,0 +1,157 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────
+
+enum UserType {
+  SUPER_ADMIN
+  ADMIN
+  TENANT
+  CUSTOMER
+  EMPLOYEE
+
+  @@map("user_types")
+}
+
+// ─────────────────────────────────────
+// USER (Better Auth + custom fields)
+// ─────────────────────────────────────
+
+model User {
+  id            String   @id @default(cuid())
+  name          String?
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  phone         String?  @unique
+  nid           String?  @unique
+  nidProof      String?
+  userType      UserType @default(TENANT)
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Better Auth relations
+  sessions Session[]
+  accounts Account[]
+
+  // Tenant relation
+  tenantPrimary            Tenant?           @relation("PrimaryUser")
+  receivedRentTransactions RentTransaction[] @relation("ReceivedBy")
+
+  @@map("users")
+}
+
+// ─────────────────────────────────────
+// BETTER AUTH — Session
+// ─────────────────────────────────────
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+  @@index([userId])
+}
+
+// ─────────────────────────────────────
+// BETTER AUTH — Account
+// ─────────────────────────────────────
+
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@map("accounts")
+  @@index([userId])
+}
+
+// ─────────────────────────────────────
+// BETTER AUTH — Verification
+// ─────────────────────────────────────
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("verifications")
+  @@index([identifier])
+}
+
+// ─────────────────────────────────────
+// TENANT
+// ─────────────────────────────────────
+
+model Tenant {
+  id             String   @id @default(uuid())
+  flatId         String
+  primaryUserId  String   @unique
+  primaryUser    User     @relation("PrimaryUser", fields: [primaryUserId], references: [id], onDelete: Cascade)
+  whatsappNumber String?
+  headCount      Int      @default(1)
+  rent           Decimal  @db.Decimal(10, 2)
+  utilities      Decimal? @db.Decimal(10, 2)
+  advance        Decimal? @db.Decimal(10, 2)
+  joinDate       DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  rentTransactions RentTransaction[]
+
+  @@index([flatId])
+  @@map("tenants")
+}
+
+// ─────────────────────────────────────
+// RENT TRANSACTION
+// ─────────────────────────────────────
+
+model RentTransaction {
+  id           String   @id @default(uuid())
+  tenantId     String
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  amount       Decimal  @db.Decimal(10, 2)
+  receivedById String
+  receivedBy   User     @relation("ReceivedBy", fields: [receivedById], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([tenantId])
+  @@index([receivedById])
+  @@index([createdAt])
+  @@map("rent_transactions")
+}
