@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="brandGrad" x1="0" y1="0" x2="256" y2="256">
+      <stop offset="0%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square container -->
+  <rect width="256" height="256" rx="64" fill="url(#brandGrad)"/>
+
+  <!-- Simplified house mark -->
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Roof -->
+    <path d="M72 148 L128 86 L184 148" stroke-width="18"/>
+    <!-- Walls -->
+    <path d="M98 148 L98 192 L158 192 L158 148" stroke-width="16"/>
+    <!-- Door -->
+    <path d="M120 192 L120 168 L136 168 L136 192" stroke-width="10"/>
+    <!-- Decorative curve -->
+    <path d="M196 104 C214 88 230 104 220 124 C210 144 188 150 168 142" stroke-width="12"/>
+  </g>
+</svg>
