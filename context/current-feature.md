@@ -2,34 +2,38 @@
 
 <!-- Feature Name -->
 
-Prisma + Neon PostgreSQL Setup
+Auth Pages — Login & Signup (Phase 1)
 
 ## Status
 
 <!-- Not Started|In Progress|Completed -->
 
-Completed
+In Progress
 
 ## Goals
 
-- Set up Prisma ORM with Neon PostgreSQL (serverless)
-- Create initial schema: User, Tenant, RentTransaction models
-- Integrate Better Auth for authentication (Prisma + Nuxt)
-- Add appropriate indexes and cascade deletes
-- Configure environment variables using Nuxt conventions
-- Create initial database migration
+- Create `app/layouts/auth.vue` — minimal centered auth layout
+- Create `app/pages/auth/login.vue` and `app/pages/auth/signup.vue` — auth pages
+- Create `app/components/auth/AuthLogin.vue` and `app/components/auth/AuthSignup.vue` — form components
+- Create `middleware/auth.ts` — route guard middleware
+- Protect dashboard with auth middleware
+- Handle loading, validation, error states, and authenticated redirects
 
 ## References
 
-- Database spec: `@context/features/database-spec.md`
-- Data models: `@context/project-overview.md`
-- Coding standards: `@context/coding-standards.md`
+- Auth feature spec: `@context/features/authentication-phase-1.md`
+- Login/signup UI reference: `@context/docs/login-page-ui-reference.md`
+- Auth client: `@app/lib/auth-client.ts`
+- coding standards: `@context/coding-standards.md`
+- architecture: `@context/architecture.md`
+- ai interaction - `@context/ai-interaction.md`
 
 ## Notes
 
-- Using Prisma 7 (breaking changes — read upgrade guide)
-- Development branch uses `DATABASE_URL`; production branch will use production DB
-- Always create migrations — never use `prisma db push`
+- Better Auth is already wired (server config, API routes, Prisma schema)
+- Auth layout is referenced in architecture.md but doesn't exist yet
+- New users default to TENANT role; role changes handled by admin later
+- Session fetch in middleware uses direct `$fetch` (can't use composables)
 
 ## History
 
@@ -42,3 +46,4 @@ Completed
 - 2026-06-03: Completed Dashboard UI Improvements — all 9 requirements implemented
 - 2026-06-04: Started Prisma + Neon PostgreSQL database setup
 - 2026-06-04: Completed Prisma 7 setup, schema, initial migration, Better Auth integration
+- 2026-06-04: Started Auth Pages — Login & Signup (Phase 1)

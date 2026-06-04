@@ -104,3 +104,7 @@ Referenced in `architecture.md` but doesn't exist yet. A clean centered layout w
 ## Reference
 
 - login/signup page UI reference: `@context/docs/login-page-ui-reference.md`
+- coding standards: `@context/coding-standards.md`
+- architecture: `@context/architecture.md`
+- project overview - `@context/project-overview.md`
+- ai interaction - `@context/ai-interaction.md`
