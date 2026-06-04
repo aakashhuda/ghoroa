@@ -2,6 +2,8 @@
 
 <!-- Feature Name -->
 
+Prisma + Neon PostgreSQL Setup
+
 ## Status
 
 <!-- Not Started|In Progress|Completed -->
@@ -10,15 +12,24 @@ Completed
 
 ## Goals
 
-<!-- Goals & requirements -->
+- Set up Prisma ORM with Neon PostgreSQL (serverless)
+- Create initial schema: User, Tenant, RentTransaction models
+- Integrate Better Auth for authentication (Prisma + Nuxt)
+- Add appropriate indexes and cascade deletes
+- Configure environment variables using Nuxt conventions
+- Create initial database migration
 
 ## References
 
-<!-- Reference files & docs -->
+- Database spec: `@context/features/database-spec.md`
+- Data models: `@context/project-overview.md`
+- Coding standards: `@context/coding-standards.md`
 
 ## Notes
 
-<!-- Any extra notes -->
+- Using Prisma 7 (breaking changes — read upgrade guide)
+- Development branch uses `DATABASE_URL`; production branch will use production DB
+- Always create migrations — never use `prisma db push`
 
 ## History
 
@@ -29,3 +40,5 @@ Completed
 - 2026-06-02: Completed Sidebar UI Improvement — changed menu hover/selected backgrounds to solid primary color with white text; sub-menu selected state styling
 - 2026-06-03: Started Dashboard UI Improvements — light theme loading, card consolidation, mobile fixes, layout restructuring
 - 2026-06-03: Completed Dashboard UI Improvements — all 9 requirements implemented
+- 2026-06-04: Started Prisma + Neon PostgreSQL database setup
+- 2026-06-04: Completed Prisma 7 setup, schema, initial migration, Better Auth integration

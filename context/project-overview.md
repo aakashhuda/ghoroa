@@ -126,8 +126,7 @@ Building owners and landlords currently manage their properties with paper recor
 ### F. 🔐 Authentication
 
 - Email / phone number / username + password
-- Gmail OAuth (Google Sign-In)
-- Powered by **Nuxt Auth v5**
+- Better Auth for Nuxt using with Neon Postgre db
 
 ---
 
@@ -197,12 +196,13 @@ model User {
   updatedAt   DateTime @updatedAt
 
   // Relations
-  tenantPrimary           Tenant?                  @relation("PrimaryUser")
-  memberships             Member[]
-  customerProfile         Customer?
-  employeeProfile         Employee?
-  authorisedTransactions  AccountTransaction[]     @relation("AuthorisedBy")
-  authorisedSalaries      EmployeeSalaryTransaction[] @relation("AuthorisedBy")
+  tenantPrimary               Tenant?                  @relation("PrimaryUser")
+  memberships                 Member[]
+  customerProfile             Customer?
+  employeeProfile             Employee?
+  authorisedTransactions      AccountTransaction[]     @relation("AuthorisedBy")
+  authorisedSalaries          EmployeeSalaryTransaction[] @relation("AuthorisedBy")
+  receivedRentTransactions    RentTransaction[]        @relation("ReceivedBy")
 
   @@map("users")
 }
@@ -227,8 +227,26 @@ model Tenant {
 
   members         Member[]
   requests        Request[]
+  rentTransactions RentTransaction[]
 
   @@map("tenants")
+}
+
+// ─────────────────────────────────────────
+// RENT TRANSACTION
+// ─────────────────────────────────────────
+
+model RentTransaction {
+  id            String   @id @default(uuid())
+  tenantId      String
+  tenant        Tenant   @relation(fields: [tenantId], references: [id])
+  amount        Decimal  @db.Decimal(10, 2)
+  receivedById  String
+  receivedBy    User     @relation("ReceivedBy", fields: [receivedById], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("rent_transactions")
 }
 
 model Member {
@@ -472,19 +490,19 @@ model InventoryItem {
 
 ## Tech Stack
 
-| Layer                 | Technology                                                               |
-| --------------------- | ------------------------------------------------------------------------ |
-| **Framework**         | [Nuxt.js](https://nuxt.com) — SSR with dynamic components                |
-| **State Management**  | [Pinia](https://pinia.vuejs.org/)                                        |
-| **Language**          | JavaScript                                                               |
-| **Database**          | [Neon](https://neon.tech) — Serverless PostgreSQL                        |
-| **ORM**               | [Prisma 7](https://www.prisma.io/docs) — migrations only, no `db push`   |
-| **Caching**           | Redis _(optional, evaluate later)_                                       |
-| **File Storage**      | [Cloudflare R2](https://developers.cloudflare.com/r2/)                   |
-| **Auth**              | [Nuxt Auth v5](https://auth.sidebase.io/) — email/password + Gmail OAuth |
-| **Component Library** | [Ant Design Vue](https://antdv.com/)                                     |
-| **CSS**               | [Tailwind CSS](https://tailwindcss.com/)                                 |
-| **API**               | Nuxt API routes (server/api/)                                            |
+| Layer                 | Technology                                                                                   |
+| --------------------- | -------------------------------------------------------------------------------------------- |
+| **Framework**         | [Nuxt.js](https://nuxt.com) — SSR with dynamic components                                    |
+| **State Management**  | [Pinia](https://pinia.vuejs.org/)                                                            |
+| **Language**          | JavaScript                                                                                   |
+| **Database**          | [Neon](https://neon.tech) — Serverless PostgreSQL                                            |
+| **ORM**               | [Prisma 7](https://www.prisma.io/docs) — migrations only, no `db push`                       |
+| **Caching**           | Redis _(optional, evaluate later)_                                                           |
+| **File Storage**      | [Cloudflare R2](https://developers.cloudflare.com/r2/)                                       |
+| **Auth**              | [Better Auth](https://better-auth.com/docs/integrations/nuxt) — email/password + Gmail OAuth |
+| **Component Library** | [Ant Design Vue](https://antdv.com/)                                                         |
+| **CSS**               | [Tailwind CSS](https://tailwindcss.com/)                                                     |
+| **API**               | Nuxt API routes (server/api/)                                                                |
 
 > **Migration rule:** Always generate and review migration files. Run `prisma migrate dev` in development and `prisma migrate deploy` in production. Never run `prisma db push`.
 
@@ -773,8 +791,10 @@ erDiagram
   User ||--o| Employee : "has profile"
   User ||--o{ AccountTransaction : "authorises"
   User ||--o{ EmployeeSalaryTransaction : "authorises"
+  User ||--o{ RentTransaction : "receives"
   Tenant ||--o{ Member : "has members"
   Tenant ||--o{ Request : "submits"
+  Tenant ||--o{ RentTransaction : "pays"
   Customer ||--o{ Order : "places"
   Employee ||--o{ EmployeeSalaryTransaction : "receives"
   Account ||--o{ AccountTransaction : "sends"
@@ -873,9 +893,24 @@ erDiagram
     DateTime createdAt
     DateTime updatedAt
   }
+  RentTransaction {
+    String id PK
+    String tenantId FK
+    Decimal amount
+    String receivedById FK
+    DateTime createdAt
+    DateTime updatedAt
+  }
+  User {
+    String id PK
+    String email UK
+    UserType userType
+  }
 
   Tenant ||--o{ Member : "members"
   Tenant ||--o{ Request : "requests"
+  Tenant ||--o{ RentTransaction : "rentTransactions"
+  User ||--o{ RentTransaction : "receivedRentTransactions"
 ```
 
 ---

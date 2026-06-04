@@ -24,16 +24,35 @@ npm run dev       # Start dev server at localhost:3000
 npm run build     # Production build
 npm run generate  # Static site generation
 npm run preview   # Preview production build locally
+npm run db:migrate  # Create new migration (prisma migrate dev)
+npm run db:deploy   # Deploy migrations (production)
+npm run db:generate # Regenerate Prisma client
+npm run db:studio   # Open Prisma Studio
+npm run db:status   # Check migration status
 ```
 
-## Prisma (Database)
+## Prisma 7 (Database)
 
-This project uses Prisma with Neon (serverless PostgreSQL).
+This project uses **Prisma 7** with Neon (serverless PostgreSQL). Prisma 7 requires **Node.js >= 20.19** — use `nvm use` (see `.nvmrc`).
 
 - **Never run `prisma db push`** in any environment. Always use migrations.
 - Create new migrations: `npx prisma migrate dev --name <migration_name>`
 - Deploy in production: `npx prisma migrate deploy`
-- The Prisma schema lives in `prisma/schema.prisma` (currently defined in `context/ghoroa-project-overview.md` — create the actual file when implementing)
+- The Prisma schema lives in `prisma/schema.prisma`
+- Prisma 7 uses `prisma.config.ts` at project root (not inline config)
+- Generated client output is at `generated/prisma/` (gitignored)
+- Prisma client requires a driver adapter (`@prisma/adapter-pg`) — see `server/utils/prisma.ts`
+- Server-side Prisma client is auto-imported from `server/utils/prisma.ts`
+
+## Auth
+
+This project uses **Better Auth** (email/password + Google OAuth).
+
+- Auth server config: `server/utils/auth.ts`
+- Auth API routes: `server/api/auth/[...all].ts` (catch-all handler)
+- Auth client (frontend): `app/lib/auth-client.ts`
+- Session check on server: `const session = await auth.api.getSession({ headers: event.headers })`
+- Session check on client: `const { data: session } = await authClient.useSession(useFetch)`
 
 ## Tech Stack
 
