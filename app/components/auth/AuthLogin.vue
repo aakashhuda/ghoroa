@@ -7,7 +7,7 @@
     </div>
 
     <!-- Login Form -->
-    <a-form @submit.prevent="handleLogin" layout="vertical" class="mb-8">
+    <a-form @submit.prevent="handleLogin" layout="vertical" class="mb-6">
       <!-- Email Field -->
       <a-form-item
         label="Email Address"
@@ -21,20 +21,10 @@
 
       <!-- Password Field -->
       <a-form-item
+        label="Password"
         :validate-status="errors.password ? 'error' : undefined"
         :help="errors.password || undefined"
       >
-        <template #label>
-          <div class="flex items-center justify-between w-full">
-            <span>Password</span>
-            <NuxtLink
-              to="/forgot-password"
-              class="text-xs font-medium text-green-600 hover:text-green-700"
-            >
-              Forgot?
-            </NuxtLink>
-          </div>
-        </template>
         <a-input-password
           v-model:value="form.password"
           placeholder="••••••••"
@@ -70,6 +60,16 @@
       </a-form-item>
     </a-form>
 
+    <!-- Forgot Password -->
+    <div class="text-center mb-8">
+      <NuxtLink
+        to="/forgot-password"
+        class="text-sm font-medium text-green-600 hover:text-green-700 transition-colors"
+      >
+        Forgot your password?
+      </NuxtLink>
+    </div>
+
     <!-- Divider -->
     <a-divider class="text-xs text-gray-500 uppercase tracking-wide">Or continue with</a-divider>
 
@@ -103,7 +103,9 @@ import {
   GoogleOutlined,
   ArrowRightOutlined,
 } from '@ant-design/icons-vue'
-import { signIn } from '~/lib/auth-client'
+import { useAuth } from '~/composables/useAuth'
+
+const { login, googleSignIn, isLoading } = useAuth()
 
 const form = ref({
   email: '',
@@ -116,7 +118,6 @@ const errors = ref({
 })
 
 const generalError = ref('')
-const isLoading = ref(false)
 
 function validateEmail(): void {
   const email = form.value.email.trim()
@@ -146,54 +147,22 @@ function validateForm(): boolean {
 async function handleLogin(): Promise<void> {
   if (!validateForm()) return
 
-  isLoading.value = true
   generalError.value = ''
 
-  try {
-    const { error } = await signIn.email({
-      email: form.value.email,
-      password: form.value.password,
-    })
+  const result = await login(form.value.email, form.value.password)
 
-    if (error) {
-      generalError.value = (error as Error).message || 'Invalid email or password'
-    } else {
-      await navigateTo('/dashboard')
-    }
-  } catch (err: unknown) {
-    generalError.value = err instanceof Error ? err.message : 'Sign in failed. Please try again.'
-  } finally {
-    isLoading.value = false
+  if (result.success) {
+    await navigateTo('/dashboard')
+  } else if (result.error) {
+    generalError.value = result.error
   }
 }
 
 async function handleGoogleSignIn(): Promise<void> {
-  try {
-    const { error } = await signIn.social({ provider: 'google' })
-    if (error) {
-      generalError.value = (error as Error).message || 'Google sign in failed'
-    }
-  } catch (err: unknown) {
-    generalError.value = err instanceof Error ? err.message : 'Google sign in failed. Please try again.'
+  generalError.value = ''
+  const result = await googleSignIn()
+  if (!result.success && result.error) {
+    generalError.value = result.error
   }
 }
 </script>
-
-<style scoped>
-.auth-btn {
-  height: 48px !important;
-  font-weight: 600 !important;
-  font-size: 15px !important;
-  border-radius: 12px !important;
-}
-
-.auth-oauth-btn {
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  height: 48px !important;
-  font-weight: 500 !important;
-  font-size: 15px !important;
-  border-radius: 12px !important;
-}
-</style>

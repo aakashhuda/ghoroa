@@ -7,11 +7,10 @@ import { useSession } from '~/lib/auth-client'
 
 definePageMeta({ layout: 'auth' })
 
-const { data: session } = useSession()
+const session = useSession()
 
-// If already authenticated, redirect away
 watchEffect(() => {
-  if (session?.value?.user) {
+  if (session.value?.data?.user) {
     navigateTo('/dashboard')
   }
 })

@@ -30,6 +30,28 @@
         </a-input>
       </a-form-item>
 
+      <!-- Phone Field -->
+      <a-form-item
+        label="Phone Number"
+        :validate-status="errors.phone ? 'error' : undefined"
+        :help="errors.phone || undefined"
+      >
+        <a-input v-model:value="form.phone" placeholder="+8801XXXXXXXXX" @blur="validatePhone">
+          <template #prefix><PhoneOutlined /></template>
+        </a-input>
+      </a-form-item>
+
+      <!-- NID Field -->
+      <a-form-item
+        label="National ID (NID)"
+        :validate-status="errors.nid ? 'error' : undefined"
+        :help="errors.nid || undefined"
+      >
+        <a-input v-model:value="form.nid" placeholder="Enter your NID number" @blur="validateNid">
+          <template #prefix><IdcardOutlined /></template>
+        </a-input>
+      </a-form-item>
+
       <!-- Password Field -->
       <a-form-item
         label="Password"
@@ -43,7 +65,6 @@
         >
           <template #prefix><LockOutlined /></template>
         </a-input-password>
-        <!-- Password Strength -->
         <div v-if="form.password" class="mt-3 flex items-center gap-2.5">
           <a-progress
             :percent="passwordStrength"
@@ -52,10 +73,7 @@
             :stroke-width="6"
             class="flex-1"
           />
-          <span
-            class="text-xs font-semibold whitespace-nowrap"
-            :class="passwordStrengthClass"
-          >
+          <span class="text-xs font-semibold whitespace-nowrap" :class="passwordStrengthClass">
             {{ getPasswordLabel() }}
           </span>
         </div>
@@ -83,9 +101,7 @@
       >
         <a-checkbox v-model:checked="form.agreedToTerms">
           I agree to the
-          <a href="#" class="text-green-600 hover:text-green-700 font-medium"
-            >Terms of Service</a
-          >
+          <a href="#" class="text-green-600 hover:text-green-700 font-medium">Terms of Service</a>
           and
           <a href="#" class="text-green-600 hover:text-green-700 font-medium">Privacy Policy</a>
         </a-checkbox>
@@ -150,12 +166,18 @@ import {
   LockOutlined,
   GoogleOutlined,
   ArrowRightOutlined,
+  PhoneOutlined,
+  IdcardOutlined,
 } from '@ant-design/icons-vue'
-import { signUp } from '~/lib/auth-client'
+import { useAuth } from '~/composables/useAuth'
+
+const { signup, googleSignUp, isLoading } = useAuth()
 
 const form = ref({
   name: '',
   email: '',
+  phone: '',
+  nid: '',
   password: '',
   confirmPassword: '',
   agreedToTerms: false,
@@ -164,13 +186,14 @@ const form = ref({
 const errors = ref({
   name: '',
   email: '',
+  phone: '',
+  nid: '',
   password: '',
   confirmPassword: '',
   agreedToTerms: '',
 })
 
 const generalError = ref('')
-const isLoading = ref(false)
 
 const passwordStrength = computed(() => {
   const pwd = form.value.password
@@ -228,6 +251,24 @@ function validateEmail(): void {
   }
 }
 
+function validatePhone(): void {
+  const phone = form.value.phone.trim()
+  if (phone && !/^\+?[0-9]{10,15}$/.test(phone)) {
+    errors.value.phone = 'Enter a valid phone number'
+  } else {
+    errors.value.phone = ''
+  }
+}
+
+function validateNid(): void {
+  const nid = form.value.nid.trim()
+  if (nid && (nid.length < 10 || nid.length > 17)) {
+    errors.value.nid = 'NID must be 10-17 digits'
+  } else {
+    errors.value.nid = ''
+  }
+}
+
 function validatePassword(): void {
   const pwd = form.value.password
   if (!pwd) {
@@ -252,6 +293,8 @@ function validateConfirmPassword(): void {
 function validateForm(): boolean {
   validateName()
   validateEmail()
+  validatePhone()
+  validateNid()
   validatePassword()
   validateConfirmPassword()
 
@@ -264,6 +307,8 @@ function validateForm(): boolean {
   return !(
     errors.value.name ||
     errors.value.email ||
+    errors.value.phone ||
+    errors.value.nid ||
     errors.value.password ||
     errors.value.confirmPassword ||
     errors.value.agreedToTerms
@@ -273,55 +318,28 @@ function validateForm(): boolean {
 async function handleSignup(): Promise<void> {
   if (!validateForm()) return
 
-  isLoading.value = true
   generalError.value = ''
 
-  try {
-    const { error } = await signUp.email({
-      name: form.value.name.trim(),
-      email: form.value.email,
-      password: form.value.password,
-    })
+  const result = await signup(
+    form.value.name.trim(),
+    form.value.email,
+    form.value.password,
+    form.value.phone.trim() || undefined,
+    form.value.nid.trim() || undefined,
+  )
 
-    if (error) {
-      generalError.value = (error as Error).message || 'Failed to create account'
-    } else {
-      await navigateTo('/dashboard')
-    }
-  } catch (err: unknown) {
-    generalError.value = err instanceof Error ? err.message : 'Failed to create account. Please try again.'
-  } finally {
-    isLoading.value = false
+  if (result.success) {
+    await navigateTo('/dashboard')
+  } else if (result.error) {
+    generalError.value = result.error
   }
 }
 
 async function handleGoogleSignUp(): Promise<void> {
-  try {
-    const { error } = await signUp.social({ provider: 'google' })
-    if (error) {
-      generalError.value = (error as Error).message || 'Google sign up failed'
-    }
-  } catch (err: unknown) {
-    generalError.value = err instanceof Error ? err.message : 'Google sign up failed. Please try again.'
+  generalError.value = ''
+  const result = await googleSignUp()
+  if (!result.success && result.error) {
+    generalError.value = result.error
   }
 }
 </script>
-
-<style scoped>
-.auth-btn {
-  height: 48px !important;
-  font-weight: 600 !important;
-  font-size: 15px !important;
-  border-radius: 12px !important;
-}
-
-.auth-oauth-btn {
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  height: 48px !important;
-  font-weight: 500 !important;
-  font-size: 15px !important;
-  border-radius: 12px !important;
-}
-</style>
