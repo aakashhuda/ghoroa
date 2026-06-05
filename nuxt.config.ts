@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
-  modules: ['@ant-design-vue/nuxt', '@nuxtjs/tailwindcss'],
+  modules: ['@ant-design-vue/nuxt', '@nuxtjs/tailwindcss', '@pinia/nuxt'],
   antd: {
     // Options
   },
