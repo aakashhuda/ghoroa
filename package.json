@@ -12,7 +12,11 @@
     "db:deploy": "prisma migrate deploy",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
-    "db:status": "prisma migrate status"
+    "db:status": "prisma migrate status",
+    "db:seed": "npx tsx prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
     "@ant-design-vue/nuxt": "^1.4.6",
@@ -31,5 +35,8 @@
     "vue": "^3.5.34",
     "vue-chartjs": "^5.3.3",
     "vue-router": "^5.0.7"
+  },
+  "devDependencies": {
+    "bcryptjs": "^3.0.3"
   }
 }

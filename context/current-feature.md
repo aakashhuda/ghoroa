@@ -1,17 +1,29 @@
-<!-- # Feature name goes here -->
+# Seed Data Script
 
 ## Status
 
-<!-- In Progress/Completed -->
+In Progress
 
 ## Goals
 
+- Create a `prisma/seed.ts` script with sample data for development and demos
+- Seed Admin (1), Super Admin (1), Tenants (10) with users
+- Create two Rent Transactions per tenant (previous month, current month)
+- Create related Better Auth model items (Account, Verification)
+- Use Bangladeshi names and flat IDs (A1-F3 range)
+
 ## References
+
+- Seed spec: `@context/features/seed-spec.md`
+- Current database structure: `prisma/schema.prisma`
 
 ## Notes
 
+- Seed script code should have simple one small line of comment to display what it's creating.
+
 ## History
 
+- 2026-06-06: Started Seed Data Script — created `prisma/seed.ts`, installed `bcryptjs`, added `db:seed` command and Prisma seed config
 - 2026-05-26: Completed Phase 1 — scaffold layout, top bar, and placeholder areas
 - 2026-05-26: Completed Phase 2 — collapsible sidebar with navigation links, user avatar area, collapse toggle, mobile drawer
 - 2026-06-01: Started Phase 3 — color theme overhaul, analytics content, border radius, sidebar icon fix
