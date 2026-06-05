@@ -1,8 +1,8 @@
-# Authentication Phase 2
+<!-- # Feature name goes here -->
 
 ## Status
 
-Completed
+<!-- In Progress/Completed -->
 
 ## Goals
 
