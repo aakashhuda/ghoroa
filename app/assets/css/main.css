@@ -330,3 +330,21 @@ body {
   .anticon {
   font-size: 18px !important;
 }
+
+/* ── Auth buttons ──────────────────────────── */
+.auth-btn {
+  height: 48px !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  border-radius: 12px !important;
+}
+
+.auth-oauth-btn {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  height: 48px !important;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  border-radius: 12px !important;
+}
