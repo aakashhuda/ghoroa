@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- circle -->
+  <path d="M110 120 A180 180 0 1 1 405 340" fill="none" stroke="url(#g)" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- buildings -->
+  <path d="M235 155 L275 130 L275 275 L235 240 Z" fill="url(#g)"/>
+  <path d="M290 145 L330 172 L330 295 L290 255 Z" fill="url(#g)"/>
+  <path d="M345 205 L375 225 L375 315 L345 290 Z" fill="url(#g)"/>
+
+  <!-- roof -->
+  <path d="M145 320 L255 225 L390 340" fill="none" stroke="url(#g)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- leaf -->
+  <path d="M115 180 C70 165 45 215 75 255 C100 285 145 290 165 255 C175 225 155 195 115 180Z"
+        fill="url(#g)"/>
+  <path d="M135 215 C145 260 145 315 125 360" fill="none" stroke="#16a34a" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- base -->
+  <path d="M95 390 C170 345 285 430 385 380 C330 405 235 420 95 390Z" fill="url(#g)"/>
+</svg>

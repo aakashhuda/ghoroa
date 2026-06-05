@@ -1,7 +1,7 @@
 <template>
   <div class="auth-wrapper">
     <!-- Left Hero Section -->
-    <div class="auth-side hidden lg:flex lg:flex-col lg:justify-between">
+    <div class="auth-side hidden md:flex lg:flex-col lg:justify-between">
       <div>
         <div class="flex items-center gap-4 mb-20">
           <svg viewBox="20 20 160 160" class="w-14 h-14">
