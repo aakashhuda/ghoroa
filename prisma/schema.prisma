@@ -34,7 +34,7 @@ model User {
   phone         String?  @unique
   nid           String?  @unique
   nidProof      String?
-  userType      UserType @default(TENANT)
+  userType      UserType @default(SUPER_ADMIN)
   image         String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
