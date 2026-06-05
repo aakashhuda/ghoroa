@@ -18,24 +18,6 @@
           <!-- Logo -->
           <NuxtLink to="/dashboard" class="flex items-center gap-4 shrink-0">
             <img src="/logo.svg" alt="Ghoroa" class="h-8 md:h-9 w-auto" />
-            <!-- <svg viewBox="20 20 160 160" class="w-14 h-14"> -->
-            <!-- <g
-                fill="none"
-                stroke="#2b2b2b"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M52 100 L100 52 L148 100" stroke-width="14" />
-                <path d="M76 100 L76 136 L124 136 L124 100" stroke-width="12" />
-                <path d="M96 136 L96 118 L108 118 L108 136" stroke-width="8" />
-                <path
-                  d="M152 70 C168 56 180 70 172 88 C164 104 144 110 126 102"
-                  stroke-width="10"
-                />
-                <path d="M48 52 C36 42 28 56 40 66" stroke-width="8" />
-              </g>
-            </svg>
-            <h1 class="text-3xl font-bold text-black">Ghoroa</h1> -->
           </NuxtLink>
         </div>
         <!-- Right: search + new (pushed right on md+) -->
@@ -130,38 +112,20 @@ import {
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons-vue";
-import { computed, onMounted, ref } from "vue";
-import { signOut } from "~/lib/auth-client";
+import { onMounted, ref } from "vue";
+import { useAuth } from "~/composables/useAuth";
 
 const sidebarCollapsed = ref(false);
 const drawerOpen = ref(false);
 
-const session = ref<{ user: { name: string; userType: string } | null } | null>(
-  null
-);
+const { userName, userRole, fetchSession, logout } = useAuth();
 
-onMounted(async () => {
-  try {
-    const data = await $fetch("/api/auth/get-session");
-    session.value = data;
-  } catch {
-    session.value = null;
-  }
-});
-
-const userName = computed(() => session.value?.user?.name || "User");
-const userRole = computed(() => {
-  const type = session.value?.user?.userType;
-  if (!type) return "User";
-  return type
-    .replace(/_/g, " ")
-    .toLowerCase()
-    .replace(/\b\w/g, (c: string) => c.toUpperCase());
+onMounted(() => {
+  fetchSession();
 });
 
 async function handleLogout() {
-  await signOut();
-  await navigateTo("/auth/login");
+  await logout();
 }
 </script>
 

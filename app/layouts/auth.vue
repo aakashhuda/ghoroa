@@ -4,23 +4,7 @@
     <div class="auth-side hidden md:flex lg:flex-col lg:justify-between">
       <div>
         <div class="flex items-center gap-4 mb-20">
-          <svg viewBox="20 20 160 160" class="w-14 h-14">
-            <g
-              fill="none"
-              stroke="#ffffff"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M52 100 L100 52 L148 100" stroke-width="14" />
-              <path d="M76 100 L76 136 L124 136 L124 100" stroke-width="12" />
-              <path d="M96 136 L96 118 L108 118 L108 136" stroke-width="8" />
-              <path
-                d="M152 70 C168 56 180 70 172 88 C164 104 144 110 126 102"
-                stroke-width="10"
-              />
-              <path d="M48 52 C36 42 28 56 40 66" stroke-width="8" />
-            </g>
-          </svg>
+          <img src="/ghoroa-icon-only.svg" alt="Ghoroa" class="w-14 h-14" />
           <h1 class="text-3xl font-bold text-white">Ghoroa</h1>
         </div>
         <div class="space-y-8">
