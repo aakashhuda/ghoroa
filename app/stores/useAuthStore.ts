@@ -114,6 +114,24 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function resetPassword(currentPassword: string, newPassword: string) {
+    loading.value = true
+    error.value = null
+
+    try {
+      const result = await authService.resetPassword(currentPassword, newPassword)
+      message.success('Password changed successfully')
+      return { success: true }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to change password'
+      error.value = msg
+      message.error(msg)
+      return { success: false, error: msg }
+    } finally {
+      loading.value = false
+    }
+  }
+
   async function logout() {
     try {
       await authService.logout()
@@ -134,6 +152,7 @@ export const useAuthStore = defineStore('auth', () => {
     signup,
     googleSignIn,
     googleSignUp,
+    resetPassword,
     logout,
   }
 })

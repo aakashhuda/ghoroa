@@ -34,6 +34,28 @@ export const authService = {
     return await (signUp as any).social({ provider: 'google' })
   },
 
+  async resetPassword(currentPassword: string, newPassword: string) {
+    const verifyResult = await $fetch('/api/auth/verify-password', {
+      method: 'POST',
+      body: { password: currentPassword },
+    })
+
+    if (!verifyResult.success) {
+      throw new Error(verifyResult.message || 'Current password is incorrect')
+    }
+
+    const changeResult = await $fetch('/api/auth/change-password', {
+      method: 'POST',
+      body: { currentPassword, newPassword },
+    })
+
+    if (!changeResult.success) {
+      throw new Error(changeResult.message || 'Failed to change password')
+    }
+
+    return changeResult
+  },
+
   async logout() {
     await signOut()
   },

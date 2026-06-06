@@ -13,6 +13,30 @@ export function useAuth() {
       .replace(/\b\w/g, (c: string) => c.toUpperCase())
   })
 
+  function validateResetPasswordForm(form: {
+    currentPassword: string
+    newPassword: string
+    confirmPassword: string
+  }) {
+    const errors = { currentPassword: '', newPassword: '', confirmPassword: '' }
+
+    if (!form.currentPassword) {
+      errors.currentPassword = 'Current password is required'
+    }
+    if (!form.newPassword) {
+      errors.newPassword = 'New password is required'
+    } else if (form.newPassword.length < 6) {
+      errors.newPassword = 'Password must be at least 6 characters'
+    }
+    if (!form.confirmPassword) {
+      errors.confirmPassword = 'Please confirm your new password'
+    } else if (form.confirmPassword !== form.newPassword) {
+      errors.confirmPassword = 'Passwords do not match'
+    }
+
+    return errors
+  }
+
   return {
     isLoading: computed(() => store.loading),
     error: computed(() => store.error),
@@ -25,6 +49,9 @@ export function useAuth() {
       store.signup(name, email, password, phone, nid),
     googleSignIn: () => store.googleSignIn(),
     googleSignUp: () => store.googleSignUp(),
+    resetPassword: (currentPassword: string, newPassword: string) =>
+      store.resetPassword(currentPassword, newPassword),
+    validateResetPasswordForm,
     logout: () => store.logout(),
   }
 }
