@@ -96,6 +96,13 @@
             <!-- Dropdown menu -->
             <template #overlay>
               <a-menu>
+                <a-menu-item key="reset-password">
+                  <NuxtLink to="/auth/reset-password" class="flex items-center">
+                    <ReloadOutlined class="mr-2" />
+                    Reset Password
+                  </NuxtLink>
+                </a-menu-item>
+                <a-menu-divider />
                 <a-menu-item key="logout" @click="handleLogout">
                   <LogoutOutlined class="mr-2" />
                   Logout
@@ -140,6 +147,7 @@ import {
   BarsOutlined,
   LogoutOutlined,
   PlusOutlined,
+  ReloadOutlined,
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons-vue";
