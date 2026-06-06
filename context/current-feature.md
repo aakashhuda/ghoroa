@@ -1,29 +1,39 @@
-# Seed Data Script
+# Authentication Phase 3 (Change Password & Send Email)
 
 ## Status
 
-In Progress
+Completed
 
 ## Goals
 
-- Create a `prisma/seed.ts` script with sample data for development and demos
-- Seed Admin (1), Super Admin (1), Tenants (10) with users
-- Create two Rent Transactions per tenant (previous month, current month)
-- Create related Better Auth model items (Account, Verification)
-- Use Bangladeshi names and flat IDs (A1-F3 range)
+- Create a reset password page with current password, new password & confirm password inputs using the default layout
+- Add a "Reset Password" link in the topbar user dropdown (before "Logout") that routes to the reset password page under `auth` directory
+- Create two server API calls: verify current password and update password
+- Implement authService.ts, useAuth.ts (composable), and userAuthStore.ts (store) to handle business logic
+- Send a success email via Resend only after password is reset successfully
 
 ## References
 
-- Seed spec: `@context/features/seed-spec.md`
-- Current database structure: `prisma/schema.prisma`
+- Feature spec: `@context/features/authentication-phase-3.md`
+- Authentication phase 1: `@context/features/authentication-phase-1.md`
+- Authentication phase 2: `@context/features/authentication-phase-2.md`
+- Resend documentation: `https://resend.com/docs/send-with-nuxt`
+- Better Auth docs: `https://better-auth.com/docs/concepts/users-accounts`
+- Database: `@prisma/schema.prisma`
+- Coding Standards: `@context/coding-standards.md`
+- Architecture: `@context/architecture.md`
 
 ## Notes
 
-- Seed script code should have simple one small line of comment to display what it's creating.
+- Resend installed, API key and EMAIL_FROM set in environment variables
+- Server email send endpoint already created at `server/api/email/send.post.ts`
+- Email utility already created at `server/utils/email.ts`
+- Follow the coding workflow in the Architecture doc
 
 ## History
 
-- 2026-06-06: Started Seed Data Script — created `prisma/seed.ts`, installed `bcryptjs`, added `db:seed` command and Prisma seed config
+- 2026-06-07: Completed Authentication Phase 3 — reset password page, API endpoints, service/store/composable layers, email notification, dropdown link, validation improvements
+- 2026-06-06: Completed Seed Data Script — created `prisma/seed.ts`, installed `bcryptjs`, added `db:seed` command and Prisma seed config
 - 2026-05-26: Completed Phase 1 — scaffold layout, top bar, and placeholder areas
 - 2026-05-26: Completed Phase 2 — collapsible sidebar with navigation links, user avatar area, collapse toggle, mobile drawer
 - 2026-06-01: Started Phase 3 — color theme overhaul, analytics content, border radius, sidebar icon fix
