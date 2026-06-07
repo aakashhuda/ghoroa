@@ -57,7 +57,7 @@ Ant Design Vue theme tokens (light + dark) are configured in `app.vue` via `<a-c
 
   ```mermaid
       flowchart LR
-          A[🖥️ Page] -->|User Action| B[🧩 Component]
+          A[🖥️ Page] -->|User Action| B[🧩 Component/Composable ]
           B -->|Dispatch Action| C[🗄️ Store]
           C -->|API Call| D[⚙️ Service]
           D -->|HTTP Request| E[🌐 Server]
