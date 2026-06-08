@@ -44,6 +44,9 @@ async function main() {
   info("Removing existing records...");
   await prisma.rentTransaction.deleteMany();
   await prisma.tenant.deleteMany();
+  await prisma.flat.deleteMany();
+  await prisma.electricMeter.deleteMany();
+  await prisma.gasMeter.deleteMany();
   await prisma.account.deleteMany();
   await prisma.session.deleteMany();
   await prisma.verification.deleteMany();
@@ -54,6 +57,57 @@ async function main() {
   section("Preparing credentials");
   const passwordHash = await bcrypt.hash("password123", 10);
   success("Password hash generated (password123)");
+
+  // ── Flats (A1–F3, 6 floors × 3 flats each) ──
+  section("Creating flats with electric & gas meters");
+
+  const flatConfigs = [
+    // Floor 1
+    { code: "A1", floor: 1 }, { code: "A2", floor: 1 }, { code: "A3", floor: 1 },
+    // Floor 2
+    { code: "B1", floor: 2 }, { code: "B2", floor: 2 }, { code: "B3", floor: 2 },
+    // Floor 3
+    { code: "C1", floor: 3 }, { code: "C2", floor: 3 }, { code: "C3", floor: 3 },
+    // Floor 4
+    { code: "D1", floor: 4 }, { code: "D2", floor: 4 }, { code: "D3", floor: 4 },
+    // Floor 5
+    { code: "E1", floor: 5 }, { code: "E2", floor: 5 }, { code: "E3", floor: 5 },
+    // Floor 6
+    { code: "F1", floor: 6 }, { code: "F2", floor: 6 }, { code: "F3", floor: 6 },
+  ];
+
+  const flatMap: Record<string, string> = {}; // code -> flat id
+
+  for (let i = 0; i < flatConfigs.length; i++) {
+    const fc = flatConfigs[i];
+
+    const electricMeter = await prisma.electricMeter.create({
+      data: {
+        name: `Electric Meter - ${fc.code}`,
+        meterNo: BigInt(1000 + i),
+      },
+    });
+
+    const gasMeter = await prisma.gasMeter.create({
+      data: {
+        name: `Gas Meter - ${fc.code}`,
+        meterNo: BigInt(2000 + i),
+      },
+    });
+
+    const flat = await prisma.flat.create({
+      data: {
+        name: `Flat ${fc.code}`,
+        code: fc.code,
+        floor: fc.floor,
+        electricMeterId: electricMeter.id,
+        gasMeterId: gasMeter.id,
+      },
+    });
+
+    flatMap[fc.code] = flat.id;
+    success(`Flat ${fc.code} (Floor ${fc.floor}) — electric & gas meters created`);
+  }
 
   // ── Admin users ──
   section("Creating admin users");
@@ -110,22 +164,22 @@ async function main() {
   section("Creating tenants");
 
   const tenantData = [
-    { name: "Shahidul Islam", email: "shahidul@ghoroa.com", phone: "+8801711111113", nid: "1987654323", flatId: "A1", rent: 10000, headCount: 4, utilities: 1500, advance: 30000 },
-    { name: "Rafiq Uddin", email: "rafiq@ghoroa.com", phone: "+8801711111114", nid: "1987654324", flatId: "A2", rent: 12000, headCount: 3, utilities: 1200, advance: 36000 },
-    { name: "Abul Hashem", email: "abul@ghoroa.com", phone: "+8801711111115", nid: "1987654325", flatId: "B1", rent: 8000, headCount: 2, utilities: 1000 },
-    { name: "Jahangir Alam", email: "jahangir@ghoroa.com", phone: "+8801711111116", nid: "1987654326", flatId: "B3", rent: 15000, headCount: 5, utilities: 2000, advance: 50000 },
-    { name: "Mostafa Kamal", email: "mostafa@ghoroa.com", phone: "+8801711111117", nid: "1987654327", flatId: "C2", rent: 11000, headCount: 3, utilities: 1300, advance: 25000 },
-    { name: "Abdul Karim", email: "abdul@ghoroa.com", phone: "+8801711111118", nid: "1987654328", flatId: "C3", rent: 9500, headCount: 4, utilities: 1100 },
-    { name: "Shamsul Haque", email: "shamsul@ghoroa.com", phone: "+8801711111119", nid: "1987654329", flatId: "D1", rent: 13000, headCount: 6, utilities: 1800, advance: 40000 },
-    { name: "Nurul Islam", email: "nurul@ghoroa.com", phone: "+8801711111120", nid: "1987654330", flatId: "D2", rent: 14000, headCount: 4, utilities: 1600, advance: 45000 },
-    { name: "Fatima Begum", email: "fatima@ghoroa.com", phone: "+8801711111121", nid: "1987654331", flatId: "E1", rent: 8500, headCount: 3, utilities: 1000, advance: 20000 },
-    { name: "Hasina Akhter", email: "hasina@ghoroa.com", phone: "+8801711111122", nid: "1987654332", flatId: "F3", rent: 16000, headCount: 5, utilities: 2000, advance: 55000 },
+    { name: "Shahidul Islam", email: "shahidul@ghoroa.com", phone: "+8801711111113", nid: "1987654323", flatCode: "A1", rent: 10000, headCount: 4, utilities: 1500, advance: 30000 },
+    { name: "Rafiq Uddin", email: "rafiq@ghoroa.com", phone: "+8801711111114", nid: "1987654324", flatCode: "A2", rent: 12000, headCount: 3, utilities: 1200, advance: 36000 },
+    { name: "Abul Hashem", email: "abul@ghoroa.com", phone: "+8801711111115", nid: "1987654325", flatCode: "B1", rent: 8000, headCount: 2, utilities: 1000 },
+    { name: "Jahangir Alam", email: "jahangir@ghoroa.com", phone: "+8801711111116", nid: "1987654326", flatCode: "B3", rent: 15000, headCount: 5, utilities: 2000, advance: 50000 },
+    { name: "Mostafa Kamal", email: "mostafa@ghoroa.com", phone: "+8801711111117", nid: "1987654327", flatCode: "C2", rent: 11000, headCount: 3, utilities: 1300, advance: 25000 },
+    { name: "Abdul Karim", email: "abdul@ghoroa.com", phone: "+8801711111118", nid: "1987654328", flatCode: "C3", rent: 9500, headCount: 4, utilities: 1100 },
+    { name: "Shamsul Haque", email: "shamsul@ghoroa.com", phone: "+8801711111119", nid: "1987654329", flatCode: "D1", rent: 13000, headCount: 6, utilities: 1800, advance: 40000 },
+    { name: "Nurul Islam", email: "nurul@ghoroa.com", phone: "+8801711111120", nid: "1987654330", flatCode: "D2", rent: 14000, headCount: 4, utilities: 1600, advance: 45000 },
+    { name: "Fatima Begum", email: "fatima@ghoroa.com", phone: "+8801711111121", nid: "1987654331", flatCode: "E1", rent: 8500, headCount: 3, utilities: 1000, advance: 20000 },
+    { name: "Hasina Akhter", email: "hasina@ghoroa.com", phone: "+8801711111122", nid: "1987654332", flatCode: "F3", rent: 16000, headCount: 5, utilities: 2000, advance: 55000 },
   ];
 
   const tenants: { id: string; rent: number }[] = [];
 
   for (const t of tenantData) {
-    info(`Creating tenant ${t.flatId} — ${t.name}...`);
+    info(`Creating tenant ${t.flatCode} — ${t.name}...`);
 
     const user = await prisma.user.create({
       data: {
@@ -134,7 +188,7 @@ async function main() {
         emailVerified: true,
         phone: t.phone,
         nid: t.nid,
-        nidProof: `uploads/nid/tenant-${t.flatId.toLowerCase()}.jpg`,
+        nidProof: `uploads/nid/tenant-${t.flatCode.toLowerCase()}.jpg`,
         userType: "TENANT",
       },
     });
@@ -150,8 +204,8 @@ async function main() {
 
     const tenant = await prisma.tenant.create({
       data: {
-        flatId: t.flatId,
-        primaryUserId: user.id,
+        flatId: flatMap[t.flatCode],
+        userId: user.id,
         whatsappNumber: t.phone,
         headCount: t.headCount,
         rent: t.rent,
@@ -162,7 +216,7 @@ async function main() {
     });
 
     tenants.push({ id: tenant.id, rent: t.rent });
-    success(`${t.flatId} — ${t.name}`);
+    success(`${t.flatCode} — ${t.name}`);
     detail("Email", t.email);
     detail("Rent", `৳${t.rent}/mo`);
   }
@@ -224,11 +278,17 @@ async function main() {
   // ── Summary ──
   section("Seed complete");
   const userCount = await prisma.user.count();
+  const flatCount = await prisma.flat.count();
+  const electricMeterCount = await prisma.electricMeter.count();
+  const gasMeterCount = await prisma.gasMeter.count();
   const tenantCount = await prisma.tenant.count();
   const transactionCount = await prisma.rentTransaction.count();
   const accountCount = await prisma.account.count();
 
   console.log(`  ${C.green}Users:${C.reset}             ${userCount}`);
+  console.log(`  ${C.green}Flats:${C.reset}             ${flatCount}`);
+  console.log(`  ${C.green}Electric Meters:${C.reset}   ${electricMeterCount}`);
+  console.log(`  ${C.green}Gas Meters:${C.reset}        ${gasMeterCount}`);
   console.log(`  ${C.green}Tenants:${C.reset}           ${tenantCount}`);
   console.log(`  ${C.green}Rent Transactions:${C.reset} ${transactionCount}`);
   console.log(`  ${C.green}Accounts:${C.reset}          ${accountCount}`);
