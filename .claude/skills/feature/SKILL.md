@@ -35,6 +35,6 @@ Execute the requested action: $ARGUMENTS
 | `explain`  | Document what changed and why                                                   |
 | `complete` | Add and commits, merge the branch, status completed & add history (append only) |
 
-See actions [actions](./actions/) for detail instructions
+See [actions](./actions/) for detail instructions
 
 if no action is provided, explain the available options

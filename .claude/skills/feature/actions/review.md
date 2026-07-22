@@ -1,6 +1,6 @@
 # Review Action
 
-1. Read the current-feature.md - to understand the goals
+1. Read the `@context/current-feature.md` - to understand the goals
 2. Review all the code changes made for this feature
 3. Check for:
    - ✅ Goals met

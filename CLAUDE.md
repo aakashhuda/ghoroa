@@ -14,8 +14,8 @@ Read the following to get the full context of the project
 
 ## UI References
 
-- `context/screenshots/screenshot-dashboard-sidebar.png`
-- `context/screenshots/screenshot-dashboard-main-content.png`
+- `@context/screenshots/screenshot-dashboard-sidebar.png`
+- `@context/screenshots/screenshot-dashboard-main-content.png`
 
 ## Commands
 

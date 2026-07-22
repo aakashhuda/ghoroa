@@ -1,6 +1,6 @@
 # Complete Action
 
-1. Read the current-feature.md - to understand the goals
+1. Read the `@context/current-feature.md` - to understand the goals
 2. Review all the code changes made for this feature to add files to git per goals & add commit message separately. Commit message should not include 'Co-Authored by Claude' or anything like this
 3. Update the status to Completed
 4. Reset current-feature.md:

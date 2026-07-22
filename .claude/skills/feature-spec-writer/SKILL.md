@@ -1,6 +1,6 @@
 ---
-name: spec-writer
-description: Turn a raw feature idea (typed inline or given as a file of one or more paragraphs) into a structured feature spec .md file, grounded in this project's actual codebase conventions. Trigger this whenever the user asks to "write a spec", "turn this idea into a spec", "spec this out", "draft a feature spec", "create a spec file from this idea/doc", or points at an idea file and asks what it would take to build it. This skill ONLY operates in Plan Mode — if the conversation is not currently in Plan Mode, tell the user to enable it (Shift+Tab to cycle modes, or /plan) before proceeding, and do not do the research or drafting work until they do.
+name: feature-spec-writer
+description: Turn a raw feature idea (typed inline or given as a file of one or more paragraphs) into a structured feature spec .md file, grounded in this project's actual codebase conventions. This skill ONLY operates in Plan Mode — if the conversation is not currently in Plan Mode, tell the user to enable it (Shift+Tab to cycle modes, or /plan) before proceeding, and do not do the research or drafting work until they do.
 argument-hint: idea-file-path-or-inline-text
 ---
 
@@ -33,7 +33,7 @@ if $ARGUMENTS empty, abort and display "Error! This skill needs a idea file path
 ### 1. Get the idea
 
 - If the user pasted the idea inline, use that text directly.
-- If they pointed at a file, look at `filepath` or `@context/ideas/{file}.md`, read it.
+- If they pointed at a file, look at `filepath` or `@context/docs/ideas/{file}.md`, read it.
   It may be several paragraphs — treat the whole file as the idea, not just the
   first paragraph.
 - If it's ambiguous what the "idea" even is (too short, or reads like a fragment),
@@ -55,10 +55,24 @@ Before drafting anything, spend real effort grounding the spec in the actual rep
 - Don't over-research. The goal is enough context to write requirements that
   reference real files, modules, or patterns — not an exhaustive audit.
 
-### 3. Draft the spec
+### 3. Create a feature plan file
 
-Determine a short, kebab-case feature name for the filename with the prefix 'plan' (e.g. `plan-user-notifications.md`)
-from the idea's core concept, unless the idea file/text already implies one.
+Before creating the feature spec file create a plan file of the feature idea provided
+
+- Cover all the funtionality (not just a summary)
+- What to implement
+- How to implement (Pages, Components, Actions, Service Classes, Pinia store, DB calls, DB model changes)
+- Find out the efficient way of developing the feature within our existing architecture.
+- Generate images (if needed) and add as references `@context/screenshots/ for the spec file
+- If any idea is provided in the idea file then consider that
+- Create the plan file `@context/docs/ideas/plan-{feature-name}.md`
+- Always consider the project's context while implementing
+
+The user should be prompt after the plan file is created asking whether the user wants to proceed to create the next step after reading the plan file. (create feature spec file)
+
+### 4. Create the feature spec file (If user wants to proceed)
+
+Determine a short, kebab-case feature name derived from the idea file's H1 for the feature's filename (e.g. `user-notifications-spec.md`). Create the file `@context/features/{feature-name}-spec.md`
 
 Fill out **exactly** this structure — do not add, remove, or rename sections:
 
@@ -86,24 +100,17 @@ the idea), and the high-level approach given this project's stack and patterns.
   flagging, or scope explicitly excluded. Keep this to genuinely useful caveats, not
   filler.
 
-## Reference
+## References
 
 - Paths to existing files/modules in this repo that are relevant precedent or will be
   touched, and any other(external/internal) reference material (stack element's documentation eg. tailwind, better auth, prisma). Omit external links unless the idea or repo already pointed to them.
 ```
 
-Keep it tight — a spec should be scannable in under four minutes. Prefer concrete
+Keep it tight — a spec should be scannable in under four-five minutes. Prefer concrete
 detail over padding; an empty or thin section is fine if there's genuinely nothing
 to say, but don't pad `Note` or `Reference` just to fill space.
 
-### 4. Present as the plan, then write
+### 5. Conculution & Suggestions
 
-Present the full drafted spec content (not just a summary) as the plan output,
-along with the proposed file path (e.g. `@context/docs/plan-user-notifications.md`), so the user
-sees exactly what will be written before approving.
-
-- If the user approves and exits Plan Mode, write the file to the proposed path
-  (create the `@context/docs/` directory if it doesn't exist) and confirm the path back to
-  the user.
-- If the user requests changes, revise the draft and re-present it — still within
-  Plan Mode — before writing anything.
+- Notify the user the skill has been exceted and completed
+- Suggest the user to run the skill `/feature load <filename>`
