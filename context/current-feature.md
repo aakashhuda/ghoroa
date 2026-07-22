@@ -1,34 +1,20 @@
-# Authentication Phase 3 (Change Password & Send Email)
+# Current Feature
 
 ## Status
 
-Completed
+Not Started
 
 ## Goals
 
-- Create a reset password page with current password, new password & confirm password inputs using the default layout
-- Add a "Reset Password" link in the topbar user dropdown (before "Logout") that routes to the reset password page under `auth` directory
-- Create two server API calls: verify current password and update password
-- Implement authService.ts, useAuth.ts (composable), and userAuthStore.ts (store) to handle business logic
-- Send a success email via Resend only after password is reset successfully
+<!-- Bullet points of what success looks like -->
 
 ## References
 
-- Feature spec: `@context/features/authentication-phase-3.md`
-- Authentication phase 1: `@context/features/authentication-phase-1.md`
-- Authentication phase 2: `@context/features/authentication-phase-2.md`
-- Resend documentation: `https://resend.com/docs/send-with-nuxt`
-- Better Auth docs: `https://better-auth.com/docs/concepts/users-accounts`
-- Database: `@prisma/schema.prisma`
-- Coding Standards: `@context/coding-standards.md`
-- Architecture: `@context/architecture.md`
+<!-- External/Internal helper documents to build a feature -->
 
 ## Notes
 
-- Resend installed, API key and EMAIL_FROM set in environment variables
-- Server email send endpoint already created at `server/api/email/send.post.ts`
-- Email utility already created at `server/utils/email.ts`
-- Follow the coding workflow in the Architecture doc
+<!-- Additional context, constraints or details from spec -->
 
 ## History
 
