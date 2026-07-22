@@ -1,5 +1,7 @@
 import { signIn, signOut, signUp } from "~/lib/auth-client";
 
+const api = () => useNuxtApp().$axios;
+
 export const authService = {
   async login(email: string, password: string) {
     const { data, error } = await signIn.email({ email, password });
@@ -18,10 +20,7 @@ export const authService = {
 
     if (phone || nid) {
       try {
-        await $fetch("/api/auth/profile", {
-          method: "PUT",
-          body: { phone, nid },
-        });
+        await api().put("/auth/profile", { phone, nid });
       } catch {
         // Profile update is non-critical; signup succeeded
       }
@@ -41,25 +40,24 @@ export const authService = {
   },
 
   async resetPassword(currentPassword: string, newPassword: string) {
-    const verifyResult = await $fetch("/api/auth/verify-password", {
-      method: "POST",
-      body: { password: currentPassword },
+    const verifyResult = await api().post("/auth/verify-password", {
+      password: currentPassword,
     });
 
-    if (!verifyResult.success) {
-      throw new Error(verifyResult.message || "Current password is incorrect");
+    if (!verifyResult.data.success) {
+      throw new Error(verifyResult.data.message || "Current password is incorrect");
     }
 
-    const changeResult = await $fetch("/api/auth/change-password", {
-      method: "POST",
-      body: { currentPassword, newPassword },
+    const changeResult = await api().post("/auth/change-password", {
+      currentPassword,
+      newPassword,
     });
 
-    if (!changeResult.success) {
-      throw new Error(changeResult.message || "Failed to change password");
+    if (!changeResult.data.success) {
+      throw new Error(changeResult.data.message || "Failed to change password");
     }
 
-    return changeResult;
+    return changeResult.data;
   },
 
   async logout() {

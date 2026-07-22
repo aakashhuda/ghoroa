@@ -33,13 +33,26 @@
           <a-sub-menu key="rent-management">
             <template #icon><HomeOutlined /></template>
             <template #title><span>Rent Management</span></template>
-            <a-menu-item key="/tenants" @click="handleNavigate('/tenants')"
+            <a-menu-item key="/rent/tenants" @click="handleNavigate('/rent/tenants')"
               >Tenants</a-menu-item
             >
+            <a-menu-item key="/rent/flats" @click="handleNavigate('/rent/flats')"
+              >Flats</a-menu-item
+            >
             <a-menu-item
-              key="/rent-collection"
-              @click="handleNavigate('/rent-collection')"
+              key="/rent/rent-collection"
+              @click="handleNavigate('/rent/rent-collection')"
               >Rent Collection</a-menu-item
+            >
+            <a-menu-item
+              key="/rent/gas-meters"
+              @click="handleNavigate('/rent/gas-meters')"
+              >Gas Meters</a-menu-item
+            >
+            <a-menu-item
+              key="/rent/electric-meters"
+              @click="handleNavigate('/rent/electric-meters')"
+              >Electric Meters</a-menu-item
             >
             <a-menu-item key="/advances" @click="handleNavigate('/advances')"
               >Advances</a-menu-item
