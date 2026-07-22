@@ -43,7 +43,7 @@ if $ARGUMENTS empty, abort and display "Error! This skill needs a idea file path
 
 Before drafting anything, spend real effort grounding the spec in the actual repo:
 
-- Skim `CLAUDE.md` if present, for stack and conventions. Learn the context reading the ## Context of this project
+- Skim `CLAUDE.md` if not done, for project context. Learn the context reading the ## Context of this project
 - Identify the relevant area(s) of the codebase the feature would touch (search for
   related modules, similar existing features, naming conventions, existing patterns
   for similar functionality).
@@ -61,11 +61,11 @@ Before creating the feature spec file create a plan file of the feature idea pro
 
 - Cover all the funtionality (not just a summary)
 - What to implement
-- How to implement (Pages, Components, Actions, Service Classes, Pinia store, DB calls, DB model changes)
+- How to implement (Pages, Components, Actions, Service Classes, Pinia store, DB calls, DB model changes, migrations management)
 - Find out the efficient way of developing the feature within our existing architecture.
 - Generate images (if needed) and add as references `@context/screenshots/ for the spec file
 - If any idea is provided in the idea file then consider that
-- Create the plan file `@context/docs/ideas/plan-{feature-name}.md`
+- Create the plan file `@context/docs/plans/plan-{feature-name}.md`
 - Always consider the project's context while implementing
 
 The user should be prompt after the plan file is created asking whether the user wants to proceed to create the next step after reading the plan file. (create feature spec file)
@@ -74,7 +74,7 @@ The user should be prompt after the plan file is created asking whether the user
 
 Determine a short, kebab-case feature name derived from the idea file's H1 for the feature's filename (e.g. `user-notifications-spec.md`). Create the file `@context/features/{feature-name}-spec.md`
 
-Fill out **exactly** this structure — do not add, remove, or rename sections:
+Fill out **exactly** this structure — do not add, remove, or rename sections. The purpose is to create and understand the whole feature to develop.
 
 ```markdown
 # Feature Name
@@ -109,6 +109,8 @@ the idea), and the high-level approach given this project's stack and patterns.
 Keep it tight — a spec should be scannable in under four-five minutes. Prefer concrete
 detail over padding; an empty or thin section is fine if there's genuinely nothing
 to say, but don't pad `Note` or `Reference` just to fill space.
+
+If the prompt answer is negative then don't create the feature file. And the plan file wil exist.
 
 ### 5. Conculution & Suggestions
 
