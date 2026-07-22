@@ -2,7 +2,7 @@
 
 ## Status
 
-Not Started
+Completed
 
 ## Goals
 
@@ -18,6 +18,7 @@ Not Started
 
 ## History
 
+- 2026-07-23: Completed Tenant Management — Axios setup, 5 CRUD modules (Tenant, Flat, Gas Meter, Electric Meter, Rent Transaction), shared DataTable/PageHeader components, server-side search/pagination, user lookup endpoint, sidebar update, card-based UI with responsive form grids and icon action buttons
 - 2026-06-07: Completed Authentication Phase 3 — reset password page, API endpoints, service/store/composable layers, email notification, dropdown link, validation improvements
 - 2026-06-06: Completed Seed Data Script — created `prisma/seed.ts`, installed `bcryptjs`, added `db:seed` command and Prisma seed config
 - 2026-05-26: Completed Phase 1 — scaffold layout, top bar, and placeholder areas
