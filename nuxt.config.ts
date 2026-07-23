@@ -5,7 +5,25 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
   modules: ["@ant-design-vue/nuxt", "@nuxtjs/tailwindcss", "@pinia/nuxt"],
   antd: {
-    // Options
+    extractStyle: true,
+    components: [
+      'Alert', 'Avatar', 'Badge', 'Button', 'Checkbox', 'ConfigProvider',
+      'DatePicker', 'Descriptions', 'DescriptionsItem', 'Divider', 'Drawer',
+      'Dropdown', 'Form', 'FormItem', 'Input', 'InputNumber', 'InputPassword',
+      'InputSearch', 'Menu', 'MenuDivider', 'MenuItem', 'MenuItemGroup',
+      'Popconfirm', 'Progress', 'RangePicker', 'Rate', 'Segmented', 'Select',
+      'SelectOption', 'Skeleton', 'SkeletonAvatar', 'Space', 'SubMenu', 'Table',
+      'TabPane', 'Tabs', 'Tag', 'Tooltip',
+    ],
+    icons: [
+      'ArrowDownOutlined', 'ArrowRightOutlined', 'ArrowUpOutlined',
+      'BarChartOutlined', 'BarsOutlined', 'CloudOutlined', 'DashboardOutlined',
+      'DeleteOutlined', 'EditOutlined', 'ExportOutlined', 'EyeOutlined',
+      'GoogleOutlined', 'HomeOutlined', 'IdcardOutlined', 'LeftOutlined',
+      'LockOutlined', 'LogoutOutlined', 'MailOutlined', 'MenuOutlined',
+      'PhoneOutlined', 'PlusOutlined', 'ReloadOutlined', 'SettingOutlined',
+      'TeamOutlined', 'ToolOutlined', 'UserOutlined', 'WalletOutlined',
+    ],
   },
   app: {
     head: {

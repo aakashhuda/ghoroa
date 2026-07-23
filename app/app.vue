@@ -1,9 +1,11 @@
 <template>
-  <a-config-provider :theme="lightTheme">
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </a-config-provider>
+  <AExtractStyle>
+    <a-config-provider :theme="lightTheme">
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </a-config-provider>
+  </AExtractStyle>
 </template>
 
 <script setup lang="ts">
