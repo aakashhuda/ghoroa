@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { message } from 'ant-design-vue'
 import { flatService } from '~/services/flatService'
+import { extractApiError } from '~/utils/errorHandler'
 
 interface Flat {
   id: string
@@ -38,7 +39,7 @@ export const useFlatStore = defineStore('flat', () => {
       flats.value = result.data
       pagination.value = result.pagination
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load flats'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
     } finally {
@@ -54,7 +55,7 @@ export const useFlatStore = defineStore('flat', () => {
       const result = await flatService.getById(id)
       currentFlat.value = result.data
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load flat'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
     } finally {
@@ -71,7 +72,7 @@ export const useFlatStore = defineStore('flat', () => {
       message.success('Flat created successfully')
       return { success: true, data: result.data }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to create flat'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }
@@ -89,7 +90,7 @@ export const useFlatStore = defineStore('flat', () => {
       message.success('Flat updated successfully')
       return { success: true, data: result.data }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to update flat'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }
@@ -107,7 +108,7 @@ export const useFlatStore = defineStore('flat', () => {
       message.success('Flat deleted successfully')
       return { success: true }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to delete flat'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }

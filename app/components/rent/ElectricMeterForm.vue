@@ -7,8 +7,8 @@
       <a-input-number v-model:value="formState.meterNo" :min="0" class="w-full" />
     </a-form-item>
     <div class="md:col-span-2 flex justify-end gap-3">
-      <a-button @click="emit('cancel')">Cancel</a-button>
-      <a-button type="primary" html-type="submit">{{ isEdit ? 'Update' : 'Create' }}</a-button>
+      <a-button type="primary" danger class="admin-btn" @click="emit('cancel')">Cancel</a-button>
+      <a-button type="primary" html-type="submit" class="admin-btn" :loading="loading">{{ isEdit ? 'Update' : 'Save' }}</a-button>
     </div>
   </a-form>
 </template>
@@ -17,9 +17,11 @@
 const props = withDefaults(defineProps<{
   isEdit?: boolean
   initialData?: Record<string, unknown> | null
+  loading?: boolean
 }>(), {
   isEdit: false,
   initialData: null,
+  loading: false,
 })
 
 const emit = defineEmits<{

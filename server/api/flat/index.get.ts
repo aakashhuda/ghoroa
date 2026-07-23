@@ -1,5 +1,6 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { mapFlatDisplay } from '../../utils/mapDisplayValues'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -48,7 +49,7 @@ export default defineEventHandler(async (event) => {
 
   return {
     success: true,
-    data: data.map((flat) => ({
+    data: data.map((flat) => mapFlatDisplay({
       ...flat,
       electricMeter: flat.electricMeter
         ? { ...flat.electricMeter, meterNo: Number(flat.electricMeter.meterNo) }

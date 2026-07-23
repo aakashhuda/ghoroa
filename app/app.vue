@@ -24,7 +24,7 @@ const lightTheme = {
     colorTextSecondary: '#5a6075',
     colorBorder: 'rgba(0,0,0,0.08)',
     borderRadius: 8,
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'JetBrains Mono', monospace",
   },
 }
 </script>

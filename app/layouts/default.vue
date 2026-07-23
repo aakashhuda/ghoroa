@@ -20,31 +20,11 @@
             <!-- <img src="/logo.svg" alt="Ghoroa" class="h-8 md:h-9 w-auto" /> -->
             <!-- Logo -->
             <div class="sidebar-logo">
-              <div class="sidebar-logo-icon">
-                <svg viewBox="20 20 160 160" class="w-5 h-5">
-                  <g
-                    fill="none"
-                    stroke="#ffffff"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M52 100 L100 52 L148 100" stroke-width="14" />
-                    <path
-                      d="M76 100 L76 136 L124 136 L124 100"
-                      stroke-width="12"
-                    />
-                    <path
-                      d="M96 136 L96 118 L108 118 L108 136"
-                      stroke-width="8"
-                    />
-                    <path
-                      d="M152 70 C168 56 180 70 172 88 C164 104 144 110 126 102"
-                      stroke-width="10"
-                    />
-                    <path d="M48 52 C36 42 28 56 40 66" stroke-width="8" />
-                  </g>
-                </svg>
-              </div>
+              <img
+                src="/ghoroa-icon-only.svg"
+                alt="Ghoroa"
+                class="w-8 h-8 flex-shrink-0"
+              />
               <span v-if="!collapsed" class="text-lg font-bold text-gray-900"
                 >Ghoroa</span
               >
@@ -60,7 +40,7 @@
           />
           <!-- + New button (icon on mobile, text on sm+) -->
           <a-dropdown :trigger="['click']">
-            <a-button type="primary" class="flex items-center">
+            <a-button type="primary" class="admin-btn flex items-center">
               <template #icon><PlusOutlined /></template>
               <span class="new-btn-text">New</span>
             </a-button>
@@ -176,5 +156,11 @@ async function handleLogout() {
   .new-btn-text {
     display: inline !important;
   }
+}
+
+/* Align dropdown triggers with 42px inputs/buttons */
+:deep(.ant-dropdown-trigger) {
+  display: inline-flex !important;
+  align-items: center !important;
 }
 </style>

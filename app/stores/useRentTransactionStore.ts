@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { message } from 'ant-design-vue'
 import { rentTransactionService } from '~/services/rentTransactionService'
+import { extractApiError } from '~/utils/errorHandler'
 
 interface RentTransaction {
   id: string
@@ -45,7 +46,7 @@ export const useRentTransactionStore = defineStore('rentTransaction', () => {
       transactions.value = result.data
       pagination.value = result.pagination
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load rent transactions'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
     } finally {
@@ -61,7 +62,7 @@ export const useRentTransactionStore = defineStore('rentTransaction', () => {
       const result = await rentTransactionService.getById(id)
       currentTransaction.value = result.data
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load rent transaction'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
     } finally {
@@ -78,7 +79,7 @@ export const useRentTransactionStore = defineStore('rentTransaction', () => {
       message.success('Rent transaction created successfully')
       return { success: true, data: result.data }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to create rent transaction'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }

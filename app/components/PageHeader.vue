@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import { LeftOutlined } from '@ant-design/icons-vue'
+import { useRouter } from 'vue-router'
 
 withDefaults(defineProps<{
   title: string
@@ -19,7 +20,16 @@ withDefaults(defineProps<{
   showBack: false,
 })
 
+const router = useRouter()
+
 function handleBack() {
-  navigateTo(-1 as unknown as string)
+  if (window.history.length > 1) {
+    router.back()
+  } else {
+    // Fallback: navigate to parent route
+    const path = router.currentRoute.value.path
+    const parentPath = path.substring(0, path.lastIndexOf('/'))
+    navigateTo(parentPath || '/dashboard')
+  }
 }
 </script>

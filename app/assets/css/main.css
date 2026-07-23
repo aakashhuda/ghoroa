@@ -1,3 +1,21 @@
+/* ── Dashboard Color Palette ──────────────── */
+:root {
+  --color-green: #16a34a;
+  --color-green-soft: #f0fdf4;
+  --color-cyan: #0891b2;
+  --color-cyan-soft: #ecfeff;
+  --color-orange: #ea580c;
+  --color-orange-soft: #fff7ed;
+  --color-blue: #2563eb;
+  --color-blue-soft: #eff6ff;
+  --color-purple: #7c3aed;
+  --color-purple-soft: #f5f3ff;
+  --color-red: #ef4444;
+  --color-red-dark: #dc2626;
+  --color-green-dark: #15803d;
+  --color-cyan-dark: #0e7490;
+}
+
 /* ── Reset & Base ────────────────────────────── */
 *,
 *::before,
@@ -9,7 +27,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: "DM Sans", Inter, system-ui, sans-serif;
+  font-family: "JetBrains Mono", monospace, system-ui, -apple-system, sans-serif;
   background-color: #f4f6fb;
   color: #1a1d2e;
   -webkit-font-smoothing: antialiased;
@@ -64,6 +82,15 @@ body {
   color: #16a34a !important;
 }
 
+.ant-menu-submenu-selected.ant-menu-submenu > .ant-menu-submenu-title:hover {
+  background-color: #16a34a !important;
+  color: #ffffff !important;
+}
+
+.ant-menu-submenu-selected.ant-menu-submenu > .ant-menu-submenu-title:hover .anticon {
+  color: #ffffff !important;
+}
+
 .ant-menu-light.ant-menu-inline .ant-menu-sub.ant-menu-inline {
   background: transparent !important;
 }
@@ -81,6 +108,188 @@ body {
 
 .ant-btn-primary {
   box-shadow: 0 4px 14px rgba(22, 163, 74, 0.25) !important;
+}
+
+/* ── All buttons: flex alignment + uppercase bold ── */
+.ant-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  text-transform: uppercase !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.02em !important;
+}
+
+.ant-btn .anticon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* ── Admin buttons (default 42px) ──────────── */
+.admin-btn {
+  height: 42px !important;
+  border-radius: 10px !important;
+  padding: 0 20px !important;
+}
+
+/* ── Admin danger button (solid danger bg, admin-btn size) ── */
+.admin-btn-danger {
+  height: 42px !important;
+  border-radius: 10px !important;
+  padding: 0 20px !important;
+  background: var(--color-red) !important;
+  border-color: var(--color-red) !important;
+  color: #ffffff !important;
+}
+
+.admin-btn-danger:hover {
+  background: var(--color-red-dark) !important;
+  border-color: var(--color-red-dark) !important;
+  color: #ffffff !important;
+}
+
+/* ── Table action buttons (solid-filled circle) ──── */
+.table-action-btn {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 16px !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-transform: none !important;
+}
+
+.table-action-btn .anticon {
+  font-size: 16px !important;
+}
+
+.table-action-btn.view-btn {
+  background: var(--color-green-soft) !important;
+  color: var(--color-green) !important;
+}
+
+.table-action-btn.view-btn:hover {
+  background: var(--color-green) !important;
+  color: #ffffff !important;
+}
+
+.table-action-btn.edit-btn {
+  background: var(--color-cyan-soft) !important;
+  color: var(--color-cyan) !important;
+}
+
+.table-action-btn.edit-btn:hover {
+  background: var(--color-cyan) !important;
+  color: #ffffff !important;
+}
+
+.table-action-btn.ant-btn-dangerous {
+  background: var(--color-orange-soft) !important;
+  color: var(--color-red) !important;
+}
+
+.table-action-btn.ant-btn-dangerous:hover {
+  background: var(--color-red) !important;
+  color: #ffffff !important;
+}
+
+/* ── Description component background ─────────── */
+.ant-descriptions-bordered .ant-descriptions-item-label {
+  background-color: #f8fafc !important;
+}
+
+.ant-descriptions-bordered .ant-descriptions-item-content {
+  background-color: #ffffff !important;
+}
+
+/* ── Global input sizing (42px) ─────────────── */
+/* Standalone input (no affix-wrapper, e.g. form inputs) */
+.ant-input {
+  height: 42px !important;
+}
+
+/* Input inside affix-wrapper — let it stretch naturally (wrapper handles height) */
+.ant-input-affix-wrapper > .ant-input {
+  height: auto !important;
+}
+
+.ant-input-affix-wrapper {
+  height: 42px !important;
+}
+
+.ant-input-number:not(.ant-input-number-affix-wrapper) {
+  height: 42px !important;
+}
+.ant-input-number .ant-input-number-input {
+  height: 40px !important;
+}
+
+.ant-select-single .ant-select-selector {
+  height: 42px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+.ant-select-single .ant-select-selection-item,
+.ant-select-single .ant-select-selection-placeholder {
+  line-height: 40px !important;
+}
+
+.ant-picker {
+  height: 42px !important;
+}
+
+/* ── Search input sizing ────────────────────── */
+/* Uses Ant Design's native display:table layout for correct width distribution */
+.ant-input-search .ant-input-search-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 42px !important;
+  width: 42px !important;
+}
+
+/* ── Tags ────────────────────────────────────── */
+.ant-tag.ant-tag-success {
+  background: var(--color-green-dark) !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-weight: 500 !important;
+  padding: 2px 10px !important;
+  border-radius: 6px !important;
+}
+
+.ant-tag:not(.ant-tag-success):not(.ant-tag-processing):not(.ant-tag-error):not(.ant-tag-warning) {
+  background: #6b7280 !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-weight: 500 !important;
+  padding: 2px 10px !important;
+  border-radius: 6px !important;
+}
+
+.ant-tag.ant-tag-processing {
+  background: var(--color-cyan-dark) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+.ant-tag.ant-tag-warning {
+  background: var(--color-orange) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+.ant-tag.ant-tag-error {
+  background: var(--color-red-dark) !important;
+  color: #ffffff !important;
+  border: none !important;
 }
 
 /* ── Gradient utilities ──────────────────────── */
@@ -108,9 +317,10 @@ body {
 .card {
   background: #ffffff;
   border-radius: 12px;
+  padding: 28px;
   box-shadow:
-    0 1px 4px 0 rgba(0, 0, 0, 0.06),
-    0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    0 2px 8px 0 rgba(0, 0, 0, 0.08),
+    0 8px 24px 0 rgba(0, 0, 0, 0.05);
   transition:
     box-shadow 0.2s ease,
     transform 0.2s ease;
@@ -118,8 +328,8 @@ body {
 
 .card-hover:hover {
   box-shadow:
-    0 4px 12px 0 rgba(0, 0, 0, 0.1),
-    0 8px 32px 0 rgba(0, 0, 0, 0.07);
+    0 4px 16px 0 rgba(0, 0, 0, 0.12),
+    0 12px 40px 0 rgba(0, 0, 0, 0.08);
   transform: translateY(-1px);
 }
 
@@ -138,9 +348,9 @@ body {
   background: #ffffff;
   border-radius: 12px;
   box-shadow:
-    0 1px 4px 0 rgba(0, 0, 0, 0.06),
-    0 4px 16px 0 rgba(0, 0, 0, 0.04);
-  padding: 20px;
+    0 2px 8px 0 rgba(0, 0, 0, 0.08),
+    0 8px 24px 0 rgba(0, 0, 0, 0.05);
+  padding: 24px;
   transition:
     box-shadow 0.2s ease,
     transform 0.2s ease;
@@ -169,9 +379,9 @@ body {
   background: #ffffff;
   border-radius: 12px;
   box-shadow:
-    0 1px 4px 0 rgba(0, 0, 0, 0.06),
-    0 4px 16px 0 rgba(0, 0, 0, 0.04);
-  padding: 24px;
+    0 2px 8px 0 rgba(0, 0, 0, 0.08),
+    0 8px 24px 0 rgba(0, 0, 0, 0.05);
+  padding: 28px;
 }
 
 /* ── Sidebar ─────────────────────────────────── */

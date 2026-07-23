@@ -13,24 +13,45 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody(event)
-  const { flatId, userId, whatsappNumber, headCount, rent, utilities, advance, joinDate } = body
+  const { name, nid, image, flatId, whatsappNumber, headCount, rent, utilities, advance, joinDate } = body
 
-  const tenant = await prisma.tenant.update({
-    where: { id },
-    data: {
-      ...(flatId !== undefined && { flatId }),
-      ...(userId !== undefined && { userId }),
-      ...(whatsappNumber !== undefined && { whatsappNumber }),
-      ...(headCount !== undefined && { headCount }),
-      ...(rent !== undefined && { rent }),
-      ...(utilities !== undefined && { utilities }),
-      ...(advance !== undefined && { advance }),
-      ...(joinDate !== undefined && { joinDate: new Date(joinDate) }),
-    },
-    include: {
-      user: { select: { id: true, name: true, email: true, phone: true } },
-      flat: { include: { electricMeter: true, gasMeter: true } },
-    },
+  const tenant = await prisma.$transaction(async (tx) => {
+    const existingTenant = await tx.tenant.findUnique({
+      where: { id },
+      select: { userId: true },
+    })
+
+    if (!existingTenant) {
+      throw createError({ statusCode: 404, message: 'Tenant not found' })
+    }
+
+    if (name !== undefined || nid !== undefined || image !== undefined) {
+      await tx.user.update({
+        where: { id: existingTenant.userId },
+        data: {
+          ...(name !== undefined && { name }),
+          ...(nid !== undefined && { nid }),
+          ...(image !== undefined && { image }),
+        },
+      })
+    }
+
+    return tx.tenant.update({
+      where: { id },
+      data: {
+        ...(flatId !== undefined && { flatId }),
+        ...(whatsappNumber !== undefined && { whatsappNumber }),
+        ...(headCount !== undefined && { headCount }),
+        ...(rent !== undefined && { rent }),
+        ...(utilities !== undefined && { utilities }),
+        ...(advance !== undefined && { advance }),
+        ...(joinDate !== undefined && { joinDate: new Date(joinDate) }),
+      },
+      include: {
+        user: { select: { id: true, name: true, email: true, phone: true, nid: true, image: true } },
+        flat: { include: { electricMeter: true, gasMeter: true } },
+      },
+    })
   })
 
   return {

@@ -16,8 +16,8 @@
       </a-select>
     </a-form-item>
     <div class="md:col-span-2 flex justify-end gap-3">
-      <a-button @click="emit('cancel')">Cancel</a-button>
-      <a-button type="primary" html-type="submit">Create</a-button>
+      <a-button type="primary" danger class="admin-btn" @click="emit('cancel')">Cancel</a-button>
+      <a-button type="primary" html-type="submit" class="admin-btn" :loading="loading">Save</a-button>
     </div>
   </a-form>
 </template>
@@ -26,9 +26,11 @@
 withDefaults(defineProps<{
   isEdit?: boolean
   initialData?: Record<string, unknown> | null
+  loading?: boolean
 }>(), {
   isEdit: false,
   initialData: null,
+  loading: false,
 })
 
 const emit = defineEmits<{

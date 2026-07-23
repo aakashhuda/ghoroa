@@ -11,11 +11,11 @@
         </p>
       </div>
       <div class="flex items-center gap-2">
-        <a-button type="default" style="border-radius: 8px">
+        <a-button type="default" class="admin-btn" style="border-radius: 8px">
           <template #icon><ExportOutlined /></template>
           Export
         </a-button>
-        <a-button class="custom-gradient-btn" style="border-radius: 8px">
+        <a-button class="custom-gradient-btn admin-btn" style="border-radius: 8px">
           <template #icon><PlusOutlined /></template>
           Quick Add
         </a-button>

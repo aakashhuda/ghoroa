@@ -17,36 +17,43 @@
         </a-select>
       </template>
       <template #actions>
-        <a-button type="primary" @click="navigateTo('/rent/flats/add')">
+        <a-button type="primary" class="admin-btn" @click="navigateTo('/rent/flats/add')">
           <template #icon><PlusOutlined /></template>
           Add Flat
         </a-button>
       </template>
       <template #bodyCell="{ column, record }: { column: { key: string }, record: Record<string, unknown> }">
+        <template v-if="column.key === 'displayValue'">
+          {{ record.displayValue || record.code || '-' }}
+        </template>
+        <template v-if="column.key === 'status'">
+          <a-tag :color="record.status === 'Active' ? 'success' : 'default'">{{ record.status || 'Inactive' }}</a-tag>
+        </template>
         <template v-if="column.key === 'electricMeter'">
-          {{ (record.electricMeter as Record<string, unknown>)?.meterNo || '-' }}
+          {{ (record.electricMeter as Record<string, unknown>)?.displayValue || (record.electricMeter as Record<string, unknown>)?.meterNo || '-' }}
         </template>
         <template v-if="column.key === 'gasMeter'">
-          {{ (record.gasMeter as Record<string, unknown>)?.meterNo || '-' }}
+          {{ (record.gasMeter as Record<string, unknown>)?.displayValue || (record.gasMeter as Record<string, unknown>)?.meterNo || '-' }}
         </template>
         <template v-if="column.key === 'tenant'">
-          {{ (record.tenant as Record<string, unknown>)?.user ? ((record.tenant as Record<string, unknown>).user as Record<string, unknown>).name : 'Vacant' }}
+          <a-tag v-if="record.tenant" color="success">Occupied</a-tag>
+          <a-tag v-else>Vacant</a-tag>
         </template>
         <template v-if="column.key === 'actions'">
           <a-space>
             <a-tooltip title="View">
-              <a-button size="small" type="text" @click="navigateTo(`/rent/flats/${record.id}`)">
+              <a-button class="table-action-btn view-btn" type="text" @click="navigateTo(`/rent/flats/${record.id}`)">
                 <EyeOutlined />
               </a-button>
             </a-tooltip>
             <a-tooltip title="Edit">
-              <a-button size="small" type="text" @click="navigateTo(`/rent/flats/edit-${record.id as string}`)">
+              <a-button class="table-action-btn edit-btn" type="text" @click="navigateTo(`/rent/flats/edit-${record.id as string}`)">
                 <EditOutlined />
               </a-button>
             </a-tooltip>
             <a-tooltip title="Delete">
               <a-popconfirm title="Delete this flat?" @confirm="handleDelete(record.id as string)">
-                <a-button size="small" type="text" danger>
+                <a-button class="table-action-btn" type="text" danger>
                   <DeleteOutlined />
                 </a-button>
               </a-popconfirm>
@@ -69,8 +76,9 @@ const floorFilter = ref<number | undefined>()
 
 const columns = [
   { title: 'Name', dataIndex: 'name', key: 'name' },
-  { title: 'Code', dataIndex: 'code', key: 'code' },
+  { title: 'Code', dataIndex: 'displayValue', key: 'displayValue' },
   { title: 'Floor', dataIndex: 'floor', key: 'floor' },
+  { title: 'Status', dataIndex: 'status', key: 'status' },
   { title: 'Electric Meter', dataIndex: 'electricMeter', key: 'electricMeter' },
   { title: 'Gas Meter', dataIndex: 'gasMeter', key: 'gasMeter' },
   { title: 'Tenant', dataIndex: 'tenant', key: 'tenant' },

@@ -2,7 +2,7 @@
   <div>
     <PageHeader title="Add Flat" show-back />
     <div class="card p-6">
-      <RentFlatForm @submit="handleSubmit" @cancel="handleCancel" />
+      <RentFlatForm :loading="store.loading" @submit="handleSubmit" @cancel="handleCancel" />
     </div>
   </div>
 </template>

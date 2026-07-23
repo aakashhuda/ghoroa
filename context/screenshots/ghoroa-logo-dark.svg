@@ -1,0 +1,24 @@
+<svg width="640" height="180" viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="100%" stop-color="#14B8A6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon badge -->
+  <g transform="translate(10,10) scale(0.8)">
+    <rect x="0" y="0" width="200" height="200" rx="46" fill="url(#bgGrad2)"/>
+    <rect x="62" y="108" width="76" height="54" rx="7" fill="#0B2A27"/>
+    <rect x="89" y="128" width="22" height="34" rx="3" fill="#2DD4BF"/>
+    <path d="M100 60 L148 110 L52 110 Z" fill="#0B2A27"/>
+    <path d="M100 36 C114 40 119 54 100 62 C81 54 86 40 100 36 Z" fill="#0B2A27"/>
+    <path d="M100 62 L100 44" stroke="#0B2A27" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="205" y="100" font-family="'JetBrains Mono','Courier New',monospace" font-size="58" font-weight="700" fill="#F8FAFC" letter-spacing="1">Ghoroa</text>
+
+  <!-- Tagline -->
+  <text x="208" y="128" font-family="'JetBrains Mono','Courier New',monospace" font-size="15" font-weight="500" fill="#5EEAD4" letter-spacing="3">PROPERTY MANAGEMENT</text>
+</svg>

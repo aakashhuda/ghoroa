@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { message } from 'ant-design-vue'
 import { electricMeterService } from '~/services/electricMeterService'
+import { extractApiError } from '~/utils/errorHandler'
 
 interface ElectricMeter {
   id: string
@@ -32,7 +33,7 @@ export const useElectricMeterStore = defineStore('electricMeter', () => {
       meters.value = result.data
       pagination.value = result.pagination
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load electric meters'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
     } finally {
@@ -48,7 +49,7 @@ export const useElectricMeterStore = defineStore('electricMeter', () => {
       const result = await electricMeterService.getById(id)
       currentMeter.value = result.data
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load electric meter'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
     } finally {
@@ -65,7 +66,7 @@ export const useElectricMeterStore = defineStore('electricMeter', () => {
       message.success('Electric meter created successfully')
       return { success: true, data: result.data }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to create electric meter'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }
@@ -83,7 +84,7 @@ export const useElectricMeterStore = defineStore('electricMeter', () => {
       message.success('Electric meter updated successfully')
       return { success: true, data: result.data }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to update electric meter'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }
@@ -101,7 +102,7 @@ export const useElectricMeterStore = defineStore('electricMeter', () => {
       message.success('Electric meter deleted successfully')
       return { success: true }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to delete electric meter'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }

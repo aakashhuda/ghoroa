@@ -8,27 +8,40 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody(event)
-  const { flatId, userId, whatsappNumber, headCount, rent, utilities, advance, joinDate } = body
+  const { name, email, phone, nid, image, flatId, whatsappNumber, headCount, rent, utilities, advance, joinDate } = body
 
-  if (!flatId || !userId || !rent || !joinDate) {
-    throw createError({ statusCode: 400, message: 'flatId, userId, rent, and joinDate are required' })
+  if (!email || !flatId || !rent || !joinDate) {
+    throw createError({ statusCode: 400, message: 'name, email, flatId, rent, and joinDate are required' })
   }
 
-  const tenant = await prisma.tenant.create({
-    data: {
-      flatId,
-      userId,
-      whatsappNumber,
-      headCount: headCount || 1,
-      rent,
-      utilities,
-      advance,
-      joinDate: new Date(joinDate),
-    },
-    include: {
-      user: { select: { id: true, name: true, email: true, phone: true } },
-      flat: { include: { electricMeter: true, gasMeter: true } },
-    },
+  const tenant = await prisma.$transaction(async (tx) => {
+    const user = await tx.user.create({
+      data: {
+        name,
+        email,
+        phone,
+        nid,
+        image,
+        userType: 'TENANT',
+      },
+    })
+
+    return tx.tenant.create({
+      data: {
+        flatId,
+        userId: user.id,
+        whatsappNumber,
+        headCount: headCount || 1,
+        rent,
+        utilities,
+        advance,
+        joinDate: new Date(joinDate),
+      },
+      include: {
+        user: { select: { id: true, name: true, email: true, phone: true } },
+        flat: { include: { electricMeter: true, gasMeter: true } },
+      },
+    })
   })
 
   return {

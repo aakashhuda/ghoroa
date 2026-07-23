@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { message } from 'ant-design-vue'
 import { tenantService } from '~/services/tenantService'
+import { extractApiError } from '~/utils/errorHandler'
 
 interface Tenant {
   id: string
@@ -46,7 +47,7 @@ export const useTenantStore = defineStore('tenant', () => {
       tenants.value = result.data
       pagination.value = result.pagination
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load tenants'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
     } finally {
@@ -62,7 +63,7 @@ export const useTenantStore = defineStore('tenant', () => {
       const result = await tenantService.getById(id)
       currentTenant.value = result.data
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load tenant'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
     } finally {
@@ -79,7 +80,7 @@ export const useTenantStore = defineStore('tenant', () => {
       message.success('Tenant created successfully')
       return { success: true, data: result.data }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to create tenant'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }
@@ -97,7 +98,7 @@ export const useTenantStore = defineStore('tenant', () => {
       message.success('Tenant updated successfully')
       return { success: true, data: result.data }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to update tenant'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }
@@ -115,7 +116,7 @@ export const useTenantStore = defineStore('tenant', () => {
       message.success('Tenant deleted successfully')
       return { success: true }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to delete tenant'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }

@@ -1,5 +1,6 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { mapElectricMeterDisplay } from '../../utils/mapDisplayValues'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -21,5 +22,5 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, message: 'Electric meter not found' })
   }
 
-  return { success: true, data: { ...meter, meterNo: Number(meter.meterNo) } }
+  return { success: true, data: mapElectricMeterDisplay({ ...meter, meterNo: Number(meter.meterNo) }) }
 })

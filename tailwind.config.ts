@@ -12,7 +12,7 @@ export default {
         error: "#ef4444",
       },
       fontFamily: {
-        sans: ['"DM Sans"', "Inter", "system-ui", "sans-serif"],
+        sans: ['"JetBrains Mono"', "monospace", "system-ui", "sans-serif"],
       },
     },
   },

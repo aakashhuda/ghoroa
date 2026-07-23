@@ -2,7 +2,7 @@
   <div>
     <PageHeader title="Add Gas Meter" show-back />
     <div class="card p-6">
-      <RentGasMeterForm @submit="handleSubmit" @cancel="handleCancel" />
+      <RentGasMeterForm :loading="store.loading" @submit="handleSubmit" @cancel="handleCancel" />
     </div>
   </div>
 </template>

@@ -11,17 +11,17 @@
     </a-form-item>
     <a-form-item label="Electric Meter" name="electricMeterId" :rules="[{ required: true, message: 'Please select electric meter' }]">
       <a-select v-model:value="formState.electricMeterId" placeholder="Select electric meter" show-search :filter-option="false" @search="searchElectricMeters">
-        <a-select-option v-for="m in electricMeterOptions" :key="m.id" :value="m.id">{{ m.name || 'Meter #' + m.meterNo }}</a-select-option>
+        <a-select-option v-for="m in electricMeterOptions" :key="m.id" :value="m.id">{{ m.displayValue || m.name || 'Meter #' + m.meterNo }}</a-select-option>
       </a-select>
     </a-form-item>
     <a-form-item label="Gas Meter" name="gasMeterId" :rules="[{ required: true, message: 'Please select gas meter' }]" class="md:col-span-2">
       <a-select v-model:value="formState.gasMeterId" placeholder="Select gas meter" show-search :filter-option="false" @search="searchGasMeters">
-        <a-select-option v-for="m in gasMeterOptions" :key="m.id" :value="m.id">{{ m.name || 'Meter #' + m.meterNo }}</a-select-option>
+        <a-select-option v-for="m in gasMeterOptions" :key="m.id" :value="m.id">{{ m.displayValue || m.name || 'Meter #' + m.meterNo }}</a-select-option>
       </a-select>
     </a-form-item>
     <div class="md:col-span-2 flex justify-end gap-3">
-      <a-button @click="emit('cancel')">Cancel</a-button>
-      <a-button type="primary" html-type="submit">{{ isEdit ? 'Update' : 'Create' }}</a-button>
+      <a-button type="primary" danger class="admin-btn" @click="emit('cancel')">Cancel</a-button>
+      <a-button type="primary" html-type="submit" class="admin-btn" :loading="loading">{{ isEdit ? 'Update' : 'Save' }}</a-button>
     </div>
   </a-form>
 </template>
@@ -30,9 +30,11 @@
 const props = withDefaults(defineProps<{
   isEdit?: boolean
   initialData?: Record<string, unknown> | null
+  loading?: boolean
 }>(), {
   isEdit: false,
   initialData: null,
+  loading: false,
 })
 
 const emit = defineEmits<{
@@ -48,8 +50,8 @@ const formState = reactive({
   gasMeterId: props.initialData?.gasMeterId as string || '',
 })
 
-const electricMeterOptions = ref<{ id: string; name: string | null; meterNo: number }[]>([])
-const gasMeterOptions = ref<{ id: string; name: string | null; meterNo: number }[]>([])
+const electricMeterOptions = ref<{ id: string; name: string | null; meterNo: number; displayValue?: string }[]>([])
+const gasMeterOptions = ref<{ id: string; name: string | null; meterNo: number; displayValue?: string }[]>([])
 
 async function searchElectricMeters(query: string) {
   try {

@@ -12,7 +12,7 @@
         <a-input-search v-model:value="search" placeholder="Search tenants..." class="w-56" @search="handleSearch" @press-enter="handleSearch" />
       </template>
       <template #actions>
-        <a-button type="primary" @click="navigateTo('/rent/tenants/add')">
+        <a-button type="primary" class="admin-btn" @click="navigateTo('/rent/tenants/add')">
           <template #icon><PlusOutlined /></template>
           Add Tenant
         </a-button>
@@ -22,26 +22,29 @@
           {{ (record.user as Record<string, unknown>)?.name || '-' }}
         </template>
         <template v-if="column.key === 'flat'">
-          {{ (record.flat as Record<string, unknown>)?.name || '-' }}
+          {{ (record.flat as Record<string, unknown>)?.displayValue || (record.flat as Record<string, unknown>)?.code || '-' }}
         </template>
         <template v-if="column.key === 'rent'">
           ৳{{ record.rent }}
         </template>
+        <template v-if="column.key === 'joinDate'">
+          {{ formatToBD(record.joinDate as string) }}
+        </template>
         <template v-if="column.key === 'actions'">
           <a-space>
             <a-tooltip title="View">
-              <a-button size="small" type="text" @click="navigateTo(`/rent/tenants/${record.id}`)">
+              <a-button class="table-action-btn view-btn" type="text" @click="navigateTo(`/rent/tenants/${record.id}`)">
                 <EyeOutlined />
               </a-button>
             </a-tooltip>
             <a-tooltip title="Edit">
-              <a-button size="small" type="text" @click="navigateTo(`/rent/tenants/edit-${record.id as string}`)">
+              <a-button class="table-action-btn edit-btn" type="text" @click="navigateTo(`/rent/tenants/edit-${record.id as string}`)">
                 <EditOutlined />
               </a-button>
             </a-tooltip>
             <a-tooltip title="Delete">
               <a-popconfirm title="Delete this tenant?" @confirm="handleDelete(record.id as string)">
-                <a-button size="small" type="text" danger>
+                <a-button class="table-action-btn" type="text" danger>
                   <DeleteOutlined />
                 </a-button>
               </a-popconfirm>
@@ -55,6 +58,7 @@
 
 <script setup lang="ts">
 import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import { formatToBD } from '~/utils/formatDate'
 
 definePageMeta({ layout: 'default' })
 

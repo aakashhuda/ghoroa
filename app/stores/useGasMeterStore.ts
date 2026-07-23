@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { message } from 'ant-design-vue'
 import { gasMeterService } from '~/services/gasMeterService'
+import { extractApiError } from '~/utils/errorHandler'
 
 interface GasMeter {
   id: string
@@ -32,7 +33,7 @@ export const useGasMeterStore = defineStore('gasMeter', () => {
       meters.value = result.data
       pagination.value = result.pagination
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load gas meters'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
     } finally {
@@ -48,7 +49,7 @@ export const useGasMeterStore = defineStore('gasMeter', () => {
       const result = await gasMeterService.getById(id)
       currentMeter.value = result.data
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load gas meter'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
     } finally {
@@ -65,7 +66,7 @@ export const useGasMeterStore = defineStore('gasMeter', () => {
       message.success('Gas meter created successfully')
       return { success: true, data: result.data }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to create gas meter'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }
@@ -83,7 +84,7 @@ export const useGasMeterStore = defineStore('gasMeter', () => {
       message.success('Gas meter updated successfully')
       return { success: true, data: result.data }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to update gas meter'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }
@@ -101,7 +102,7 @@ export const useGasMeterStore = defineStore('gasMeter', () => {
       message.success('Gas meter deleted successfully')
       return { success: true }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to delete gas meter'
+      const msg = extractApiError(err).message
       error.value = msg
       message.error(msg)
       return { success: false, error: msg }

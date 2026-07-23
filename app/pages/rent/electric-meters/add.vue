@@ -2,7 +2,7 @@
   <div>
     <PageHeader title="Add Electric Meter" show-back />
     <div class="card p-6">
-      <RentElectricMeterForm @submit="handleSubmit" @cancel="handleCancel" />
+      <RentElectricMeterForm :loading="store.loading" @submit="handleSubmit" @cancel="handleCancel" />
     </div>
   </div>
 </template>

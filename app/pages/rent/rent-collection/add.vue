@@ -2,7 +2,7 @@
   <div>
     <PageHeader title="Add Rent Transaction" show-back />
     <div class="card p-6">
-      <RentTransactionForm @submit="handleSubmit" @cancel="handleCancel" />
+      <RentTransactionForm :loading="store.loading" @submit="handleSubmit" @cancel="handleCancel" />
     </div>
   </div>
 </template>

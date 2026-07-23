@@ -12,8 +12,12 @@ export const tenantService = {
   },
 
   async create(data: {
+    name: string
+    email: string
+    phone?: string
+    nid?: string
+    image?: string
     flatId: string
-    userId: string
     whatsappNumber?: string
     headCount?: number
     rent: number
@@ -26,8 +30,10 @@ export const tenantService = {
   },
 
   async update(id: string, data: Partial<{
+    name: string
+    nid: string
+    image: string
     flatId: string
-    userId: string
     whatsappNumber: string
     headCount: number
     rent: number

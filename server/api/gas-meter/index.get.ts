@@ -1,5 +1,6 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { mapGasMeterDisplay } from '../../utils/mapDisplayValues'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -34,7 +35,7 @@ export default defineEventHandler(async (event) => {
 
   return {
     success: true,
-    data: data.map((meter) => ({ ...meter, meterNo: Number(meter.meterNo) })),
+    data: data.map((meter) => mapGasMeterDisplay({ ...meter, meterNo: Number(meter.meterNo) })),
     pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
   }
 })

@@ -12,7 +12,15 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Tenant ID is required' })
   }
 
-  await prisma.tenant.delete({ where: { id } })
+  const tenant = await prisma.tenant.findUnique({ where: { id }, select: { userId: true } })
+  if (!tenant) {
+    throw createError({ statusCode: 404, message: 'Tenant not found' })
+  }
+
+  await prisma.$transaction(async (tx) => {
+    await tx.tenant.delete({ where: { id } })
+    await tx.user.delete({ where: { id: tenant.userId } })
+  })
 
   return { success: true }
 })
