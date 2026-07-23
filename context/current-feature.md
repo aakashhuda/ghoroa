@@ -35,3 +35,4 @@ Complete
 - 2026-06-05: Started Auth Pages — Login & Signup (Phase 2)
 - 2026-06-05: Completed Auth Pages — Login & Signup (Phase 2)
 - 2026-07-24: Completed UI & Functionality Improvements — tenant+user inline creation, computed display values, BST formatting, JetBrains Mono font, 42px input/button sizing, unified button styles, skeleton loading, card shadows, error handling, date picker migration, sidebar logo, and 14+ UI polish items across all admin pages
+- 2026-07-24: Completed Homepage Design — guest layout, root page, sticky navbar with Watch Demo/Get Started, hero with CSS mockup, 6-feature card grid, gradient stats section, 3-step guide, testimonials, CTA section, and dark footer; all 10 files additive, no existing files modified
