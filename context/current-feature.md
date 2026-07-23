@@ -2,19 +2,19 @@
 
 ## Status
 
-Completed
+Complete
 
 ## Goals
 
-<!-- Bullet points of what success looks like -->
+<!-- - [ ] Goal 1 -->
 
 ## References
 
-<!-- External/Internal helper documents to build a feature -->
+<!-- - [`@context/features/feature-name-spec.md`](features/feature-name-spec.md) — feature spec -->
 
 ## Notes
 
-<!-- Additional context, constraints or details from spec -->
+<!-- - Additional context, constraints or details from spec -->
 
 ## History
 
@@ -34,3 +34,4 @@ Completed
 - 2026-06-04: Completed Auth Pages — Login & Signup (Phase 1)
 - 2026-06-05: Started Auth Pages — Login & Signup (Phase 2)
 - 2026-06-05: Completed Auth Pages — Login & Signup (Phase 2)
+- 2026-07-24: Completed UI & Functionality Improvements — tenant+user inline creation, computed display values, BST formatting, JetBrains Mono font, 42px input/button sizing, unified button styles, skeleton loading, card shadows, error handling, date picker migration, sidebar logo, and 14+ UI polish items across all admin pages
