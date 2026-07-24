@@ -54,16 +54,14 @@
 
         <!-- Right Mockup -->
           <div class="hero-mockup">
-            <div class="mockup-glow" />
-            <div class="mockup-img-wrap">
-              <img
-                src="/images/dashboard-mockup.svg"
-                alt="Ghoroa Dashboard"
-                class="mockup-img"
-                width="800"
-                height="500"
-              />
-            </div>
+            <img
+              src="/images/dashboard-mockup.svg"
+              alt="Ghoroa Dashboard"
+              class="mockup-img"
+              width="800"
+              height="500"
+              style="display:block; width:100%; max-width:540px; height:auto; border-radius:14px; border:2px solid rgba(22,163,74,0.3);"
+            />
           </div>
       </div>
     </div>
@@ -87,7 +85,6 @@ function scrollToDemo() {
   position: relative;
   background: #ffffff;
   padding: 80px 0 100px;
-  overflow: hidden;
 }
 
 /* ── Background glow orbs ─────────────── */
@@ -236,43 +233,24 @@ function scrollToDemo() {
 .hero-mockup {
   display: flex;
   justify-content: center;
-  position: relative;
-}
-
-.mockup-glow {
-  position: absolute;
-  width: 340px;
-  height: 340px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(22, 163, 74, 0.14) 0%, transparent 70%);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.mockup-img-wrap {
-  position: relative;
-  z-index: 2;
-  will-change: transform;
-  animation: mockupFloat 5s ease-in-out infinite;
-}
-
-@keyframes mockupFloat {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -8px, 0); }
 }
 
 .mockup-img {
+  display: block;
   width: 100%;
   max-width: 540px;
   height: auto;
   border-radius: 14px;
   box-shadow:
+    0 0 100px 60px rgba(22, 163, 74, 0.08),
     0 4px 24px rgba(0, 0, 0, 0.10),
     0 16px 56px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.06);
-  display: block;
+  animation: mockupFloat 5s ease-in-out infinite;
+}
+
+@keyframes mockupFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 </style>
