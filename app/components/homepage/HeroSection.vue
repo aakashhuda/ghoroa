@@ -1,61 +1,78 @@
 <template>
   <section class="hero-section">
-    <div class="max-w-7xl mx-auto px-6">
+    <!-- Background glow orbs -->
+    <div class="hero-bg-glow hero-glow-top" />
+    <div class="hero-bg-glow hero-glow-bottom" />
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
       <div class="hero-grid">
         <!-- Left Content -->
         <div class="hero-content">
-          <h1 class="hero-heading">
-            Manage Your Property.
-            <span class="gradient-text">Digitally.</span>
-          </h1>
-          <p class="hero-subtitle">
-            Rent collection, expense tracking, employee management, and rooftop farm
-            operations — all from one platform.
-          </p>
-          <div class="hero-ctas">
-            <a-button
-              type="primary"
-              class="custom-gradient-btn hero-cta-btn"
-              href="/auth/signup"
-            >
-              Get Started Free
-            </a-button>
-            <a-button class="hero-outlined-btn" @click="scrollToDemo">
-              Watch Demo
-            </a-button>
-          </div>
-          <p class="hero-trust">Trusted by 500+ property managers</p>
+          <SlideUpReveal>
+            <span class="hero-badge">
+              <span class="badge-dot" /> New: Rooftop Farm Module
+            </span>
+          </SlideUpReveal>
+
+          <SlideUpReveal :delay="100">
+            <h1 class="hero-heading">
+              Manage Your Property.
+              <span class="gradient-text">Digitally.</span>
+            </h1>
+          </SlideUpReveal>
+
+          <SlideUpReveal :delay="200">
+            <p class="hero-subtitle">
+              Rent collection, expense tracking, employee management, and rooftop farm
+              operations — all from one platform.
+            </p>
+          </SlideUpReveal>
+
+          <SlideUpReveal :delay="300">
+            <div class="hero-ctas">
+              <a-button
+                type="primary"
+                class="custom-gradient-btn hero-cta-btn"
+                href="/auth/signup"
+              >
+                Get Started Free
+              </a-button>
+              <a-button class="hero-outlined-btn" @click="scrollToDemo">
+                <PlayCircleOutlined class="text-base" />
+                Watch Demo
+              </a-button>
+            </div>
+          </SlideUpReveal>
+
+          <SlideUpReveal :delay="400">
+            <p class="hero-trust">
+              <CheckCircleFilled class="trust-check" />
+              Trusted by 500+ property managers
+            </p>
+          </SlideUpReveal>
         </div>
 
         <!-- Right Mockup -->
-        <div class="hero-mockup">
-          <div class="mockup-frame">
-            <div class="mockup-header">
-              <div class="mockup-dot mockup-dot-red" />
-              <div class="mockup-dot mockup-dot-yellow" />
-              <div class="mockup-dot mockup-dot-green" />
-            </div>
-            <div class="mockup-body">
-              <div class="mockup-sidebar">
-                <div class="mockup-logo" />
-                <div v-for="i in 4" :key="i" class="mockup-menu-item" :style="{ width: `${60 + i * 10}%` }" />
-              </div>
-              <div class="mockup-main">
-                <div class="mockup-topbar" />
-                <div class="mockup-cards">
-                  <div v-for="i in 3" :key="i" class="mockup-card" />
-                </div>
-                <div class="mockup-chart" />
-              </div>
+          <div class="hero-mockup">
+            <div class="mockup-glow" />
+            <div class="mockup-img-wrap">
+              <img
+                src="/images/dashboard-mockup.svg"
+                alt="Ghoroa Dashboard"
+                class="mockup-img"
+                width="800"
+                height="500"
+              />
             </div>
           </div>
-        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { PlayCircleOutlined, CheckCircleFilled } from '@ant-design/icons-vue'
+
 function scrollToDemo() {
   const el = document.getElementById('how-it-works')
   if (el) {
@@ -65,12 +82,39 @@ function scrollToDemo() {
 </script>
 
 <style scoped>
+/* ── Section Base ──────────────────────── */
 .hero-section {
+  position: relative;
   background: #ffffff;
-  padding: 80px 0;
+  padding: 80px 0 100px;
   overflow: hidden;
 }
 
+/* ── Background glow orbs ─────────────── */
+.hero-bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.hero-glow-top {
+  width: 500px;
+  height: 500px;
+  background: rgba(22, 163, 74, 0.06);
+  top: -200px;
+  right: -100px;
+}
+
+.hero-glow-bottom {
+  width: 400px;
+  height: 400px;
+  background: rgba(8, 145, 178, 0.05);
+  bottom: -150px;
+  left: -100px;
+}
+
+/* ── Grid ─────────────────────────────── */
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -89,12 +133,41 @@ function scrollToDemo() {
   }
 }
 
+/* ── Content ──────────────────────────── */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0fdf4;
+  color: #16a34a;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(22, 163, 74, 0.15);
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #16a34a;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
 .hero-heading {
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.12;
   color: #1a1d2e;
   margin-bottom: 20px;
+  letter-spacing: -0.02em;
 }
 
 @media (max-width: 640px) {
@@ -104,11 +177,11 @@ function scrollToDemo() {
 }
 
 .hero-subtitle {
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.7;
   color: #5a6075;
   margin-bottom: 32px;
-  max-width: 480px;
+  max-width: 460px;
 }
 
 @media (max-width: 1024px) {
@@ -125,17 +198,20 @@ function scrollToDemo() {
 }
 
 .hero-cta-btn {
-  height: 48px !important;
-  font-size: 14px !important;
-  padding: 0 28px !important;
+  height: 50px !important;
+  font-size: 15px !important;
+  padding: 0 32px !important;
 }
 
 .hero-outlined-btn {
-  height: 48px !important;
-  font-size: 14px !important;
+  height: 50px !important;
+  font-size: 15px !important;
   padding: 0 28px !important;
   border-color: #16a34a !important;
   color: #16a34a !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
 }
 
 .hero-outlined-btn:hover {
@@ -146,106 +222,57 @@ function scrollToDemo() {
 .hero-trust {
   font-size: 13px;
   color: #5a6075;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* ── Mockup ────────────────────────── */
+.trust-check {
+  color: #16a34a;
+  font-size: 14px;
+}
+
+/* ── Mockup ───────────────────────────── */
 .hero-mockup {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
-.mockup-frame {
+.mockup-glow {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(22, 163, 74, 0.14) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mockup-img-wrap {
+  position: relative;
+  z-index: 2;
+  will-change: transform;
+  animation: mockupFloat 5s ease-in-out infinite;
+}
+
+@keyframes mockupFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -8px, 0); }
+}
+
+.mockup-img {
   width: 100%;
   max-width: 540px;
-  border-radius: 12px;
+  height: auto;
+  border-radius: 14px;
   box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.10),
-    0 12px 48px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  background: #ffffff;
+    0 4px 24px rgba(0, 0, 0, 0.10),
+    0 16px 56px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.mockup-header {
-  display: flex;
-  gap: 6px;
-  padding: 12px 16px;
-  background: #f4f6fb;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.mockup-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-.mockup-dot-red { background: #ef4444; }
-.mockup-dot-yellow { background: #ea580c; }
-.mockup-dot-green { background: #16a34a; }
-
-.mockup-body {
-  display: flex;
-  height: 300px;
-}
-
-.mockup-sidebar {
-  width: 30%;
-  background: #ffffff;
-  border-right: 1px solid rgba(0, 0, 0, 0.04);
-  padding: 16px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.mockup-logo {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, #16a34a, #0891b2);
-  margin-bottom: 8px;
-}
-
-.mockup-menu-item {
-  height: 8px;
-  border-radius: 4px;
-  background: #eef1f8;
-}
-
-.mockup-main {
-  flex: 1;
-  background: #f4f6fb;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.mockup-topbar {
-  height: 8px;
-  width: 60%;
-  border-radius: 4px;
-  background: #e0e4ed;
-}
-
-.mockup-cards {
-  display: flex;
-  gap: 8px;
-}
-
-.mockup-card {
-  flex: 1;
-  height: 60px;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-}
-
-.mockup-chart {
-  flex: 1;
-  border-radius: 8px;
-  background: linear-gradient(135deg, rgba(22, 163, 74, 0.08), rgba(8, 145, 178, 0.08));
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  display: block;
 }
 </style>
