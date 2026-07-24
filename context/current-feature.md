@@ -18,6 +18,7 @@ Complete
 
 ## History
 
+- 2026-07-25: Completed Validations (Zod) — installed zod, created shared/schemas/ with Zod schemas for all 7 domains + common primitives, built validate-body/validate-query/validate-params helpers, added Prisma error handler with human-readable field labels, migrated all 29 API routes to use Zod validators, updated frontend errorHandler for structured Zod errors, and fixed electric/gas meter search BigInt guard
 - 2026-07-23: Completed Tenant Management — Axios setup, 5 CRUD modules (Tenant, Flat, Gas Meter, Electric Meter, Rent Transaction), shared DataTable/PageHeader components, server-side search/pagination, user lookup endpoint, sidebar update, card-based UI with responsive form grids and icon action buttons
 - 2026-06-07: Completed Authentication Phase 3 — reset password page, API endpoints, service/store/composable layers, email notification, dropdown link, validation improvements
 - 2026-06-06: Completed Seed Data Script — created `prisma/seed.ts`, installed `bcryptjs`, added `db:seed` command and Prisma seed config
