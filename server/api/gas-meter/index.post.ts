@@ -1,5 +1,8 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { validateBody } from '../../../shared/validators/validate-body'
+import { gasMeterSchema } from '../../../shared/schemas/gas-meter.schema'
+import { handlePrismaError } from '../../../shared/errors/prisma-error'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -7,16 +10,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const body = await readBody(event)
-  const { name, meterNo } = body
+  const { name, meterNo } = await validateBody(event, gasMeterSchema)
 
-  if (!meterNo) {
-    throw createError({ statusCode: 400, message: 'meterNo is required' })
+  try {
+    const meter = await prisma.gasMeter.create({
+      data: { name, meterNo },
+    })
+    return { success: true, data: { ...meter, meterNo: Number(meter.meterNo) } }
+  } catch (err) {
+    handlePrismaError(err)
   }
-
-  const meter = await prisma.gasMeter.create({
-    data: { name, meterNo: BigInt(meterNo) },
-  })
-
-  return { success: true, data: { ...meter, meterNo: Number(meter.meterNo) } }
 })

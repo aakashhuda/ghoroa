@@ -1,6 +1,8 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
 import { mapGasMeterDisplay } from '../../utils/mapDisplayValues'
+import { validateQuery } from '../../../shared/validators/validate-query'
+import { gasMeterQuerySchema } from '../../../shared/schemas/gas-meter.schema'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -8,18 +10,16 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const query = getQuery(event)
-  const search = (query.search as string) || ''
-  const page = Math.max(1, parseInt((query.page as string) || '1'))
-  const pageSize = Math.min(100, Math.max(1, parseInt((query.pageSize as string) || '10')))
+  const { search, page, pageSize } = validateQuery(event, gasMeterQuerySchema)
 
   const where: Record<string, unknown> = {}
 
   if (search) {
-    where.OR = [
-      { name: { contains: search, mode: 'insensitive' } },
-      { meterNo: { equals: BigInt(search) } },
-    ]
+    where.OR = [{ name: { contains: search, mode: 'insensitive' } }]
+    const searchAsNumber = Number(search)
+    if (!isNaN(searchAsNumber) && Number.isInteger(searchAsNumber) && searchAsNumber > 0) {
+      where.OR.push({ meterNo: { equals: BigInt(search) } })
+    }
   }
 
   const [data, total] = await Promise.all([

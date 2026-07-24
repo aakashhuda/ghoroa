@@ -1,5 +1,7 @@
 import { prisma } from '../../utils/prisma'
 import { auth } from '../../utils/auth'
+import { validateBody } from '../../../shared/validators/validate-body'
+import { profileUpdateSchema } from '../../../shared/schemas/auth.schema'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -8,8 +10,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const body = await readBody(event)
-  const { phone, nid } = body
+  const { phone, nid } = await validateBody(event, profileUpdateSchema)
 
   const updatedUser = await prisma.user.update({
     where: { id: session.user.id },

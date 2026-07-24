@@ -1,5 +1,7 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { validateQuery } from '../../../shared/validators/validate-query'
+import { rentTransactionQuerySchema } from '../../../shared/schemas/rent-transaction.schema'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -7,12 +9,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const query = getQuery(event)
-  const search = (query.search as string) || ''
-  const dateFrom = query.dateFrom as string | undefined
-  const dateTo = query.dateTo as string | undefined
-  const page = Math.max(1, parseInt((query.page as string) || '1'))
-  const pageSize = Math.min(100, Math.max(1, parseInt((query.pageSize as string) || '10')))
+  const { search, dateFrom, dateTo, page, pageSize } = validateQuery(event, rentTransactionQuerySchema)
 
   const where: Record<string, unknown> = {}
 

@@ -1,17 +1,33 @@
+interface ZodFieldError {
+  field: string
+  message: string
+}
+
+interface ApiErrorResult {
+  message: string
+  errors?: ZodFieldError[]
+}
+
 function cleanMessage(msg: string): string {
-  // Prisma errors have a verbose prefix like:
-  // "\nInvalid `prisma.user.create()` invocation:\n\n\nUnique constraint failed on the fields: (`email`)"
-  // Extract the meaningful part after the last colon-newline
   const prismaMatch = msg.match(/:\n+(.+)$/)
   if (prismaMatch) return prismaMatch[1].trim()
   return msg.trim()
 }
 
-export function extractApiError(err: unknown): { message: string } {
+export function extractApiError(err: unknown): ApiErrorResult {
   if (err && typeof err === 'object' && 'response' in err) {
-    const axiosErr = err as { response?: { data?: { message?: string } } }
-    if (axiosErr.response?.data?.message) {
-      return { message: cleanMessage(axiosErr.response.data.message) }
+    const axiosErr = err as {
+      response?: { data?: { message?: string; errors?: ZodFieldError[] } }
+    }
+    const data = axiosErr.response?.data
+    if (data) {
+      const result: ApiErrorResult = {
+        message: data.message ? cleanMessage(data.message) : 'An unexpected error occurred',
+      }
+      if (data.errors && Array.isArray(data.errors)) {
+        result.errors = data.errors
+      }
+      return result
     }
   }
   if (err instanceof Error) {

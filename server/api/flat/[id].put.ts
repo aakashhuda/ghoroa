@@ -1,5 +1,10 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { validateParams } from '../../../shared/validators/validate-params'
+import { validateBody } from '../../../shared/validators/validate-body'
+import { idParamSchema } from '../../../shared/schemas/common.schema'
+import { flatUpdateSchema } from '../../../shared/schemas/flat.schema'
+import { handlePrismaError } from '../../../shared/errors/prisma-error'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -7,40 +12,36 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const id = getRouterParam(event, 'id')
-  if (!id) {
-    throw createError({ statusCode: 400, message: 'Flat ID is required' })
-  }
+  const { id } = validateParams(event, idParamSchema)
+  const body = await validateBody(event, flatUpdateSchema)
 
-  const body = await readBody(event)
-  const { name, code, floor, electricMeterId, gasMeterId, flatDetails } = body
+  try {
+    const flat = await prisma.flat.update({
+      where: { id },
+      data: {
+        ...(body.name !== undefined && { name: body.name }),
+        ...(body.code !== undefined && { code: body.code }),
+        ...(body.floor !== undefined && { floor: body.floor }),
+        ...(body.electricMeterId !== undefined && { electricMeterId: body.electricMeterId }),
+        ...(body.gasMeterId !== undefined && { gasMeterId: body.gasMeterId }),
+        ...(body.flatDetails !== undefined && { flatDetails: body.flatDetails }),
+      },
+      include: { electricMeter: true, gasMeter: true },
+    })
 
-  const flat = await prisma.flat.update({
-    where: { id },
-    data: {
-      ...(name !== undefined && { name }),
-      ...(code !== undefined && { code }),
-      ...(floor !== undefined && { floor }),
-      ...(electricMeterId !== undefined && { electricMeterId }),
-      ...(gasMeterId !== undefined && { gasMeterId }),
-      ...(flatDetails !== undefined && { flatDetails }),
-    },
-    include: {
-      electricMeter: true,
-      gasMeter: true,
-    },
-  })
-
-  return {
-    success: true,
-    data: {
-      ...flat,
-      electricMeter: flat.electricMeter
-        ? { ...flat.electricMeter, meterNo: Number(flat.electricMeter.meterNo) }
-        : null,
-      gasMeter: flat.gasMeter
-        ? { ...flat.gasMeter, meterNo: Number(flat.gasMeter.meterNo) }
-        : null,
-    },
+    return {
+      success: true,
+      data: {
+        ...flat,
+        electricMeter: flat.electricMeter
+          ? { ...flat.electricMeter, meterNo: Number(flat.electricMeter.meterNo) }
+          : null,
+        gasMeter: flat.gasMeter
+          ? { ...flat.gasMeter, meterNo: Number(flat.gasMeter.meterNo) }
+          : null,
+      },
+    }
+  } catch (err) {
+    handlePrismaError(err)
   }
 })

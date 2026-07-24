@@ -1,5 +1,8 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { validateBody } from '../../../shared/validators/validate-body'
+import { flatSchema } from '../../../shared/schemas/flat.schema'
+import { handlePrismaError } from '../../../shared/errors/prisma-error'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -7,38 +10,27 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const body = await readBody(event)
-  const { name, code, floor, electricMeterId, gasMeterId, flatDetails } = body
+  const { name, code, floor, electricMeterId, gasMeterId, flatDetails } = await validateBody(event, flatSchema)
 
-  if (!name || !code || floor === undefined || !electricMeterId || !gasMeterId) {
-    throw createError({ statusCode: 400, message: 'name, code, floor, electricMeterId, and gasMeterId are required' })
-  }
+  try {
+    const flat = await prisma.flat.create({
+      data: { name, code, floor, electricMeterId, gasMeterId, flatDetails },
+      include: { electricMeter: true, gasMeter: true },
+    })
 
-  const flat = await prisma.flat.create({
-    data: {
-      name,
-      code,
-      floor,
-      electricMeterId,
-      gasMeterId,
-      flatDetails: flatDetails || {},
-    },
-    include: {
-      electricMeter: true,
-      gasMeter: true,
-    },
-  })
-
-  return {
-    success: true,
-    data: {
-      ...flat,
-      electricMeter: flat.electricMeter
-        ? { ...flat.electricMeter, meterNo: Number(flat.electricMeter.meterNo) }
-        : null,
-      gasMeter: flat.gasMeter
-        ? { ...flat.gasMeter, meterNo: Number(flat.gasMeter.meterNo) }
-        : null,
-    },
+    return {
+      success: true,
+      data: {
+        ...flat,
+        electricMeter: flat.electricMeter
+          ? { ...flat.electricMeter, meterNo: Number(flat.electricMeter.meterNo) }
+          : null,
+        gasMeter: flat.gasMeter
+          ? { ...flat.gasMeter, meterNo: Number(flat.gasMeter.meterNo) }
+          : null,
+      },
+    }
+  } catch (err) {
+    handlePrismaError(err)
   }
 })

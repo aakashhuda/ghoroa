@@ -1,5 +1,8 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { validateParams } from '../../../shared/validators/validate-params'
+import { idParamSchema } from '../../../shared/schemas/common.schema'
+import { handlePrismaError } from '../../../shared/errors/prisma-error'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -7,10 +10,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const id = getRouterParam(event, 'id')
-  if (!id) {
-    throw createError({ statusCode: 400, message: 'Flat ID is required' })
-  }
+  const { id } = validateParams(event, idParamSchema)
 
   const flat = await prisma.flat.findUnique({
     where: { id },
@@ -21,16 +21,18 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, message: 'Flat not found' })
   }
 
-  // Delete flat first, then optionally delete orphaned meters
-  await prisma.flat.delete({ where: { id } })
+  try {
+    await prisma.flat.delete({ where: { id } })
 
-  // Optionally delete orphaned meters (now unlinked from the flat)
-  if (flat.electricMeterId) {
-    await prisma.electricMeter.delete({ where: { id: flat.electricMeterId } }).catch(() => {})
-  }
-  if (flat.gasMeterId) {
-    await prisma.gasMeter.delete({ where: { id: flat.gasMeterId } }).catch(() => {})
-  }
+    if (flat.electricMeterId) {
+      await prisma.electricMeter.delete({ where: { id: flat.electricMeterId } }).catch(() => {})
+    }
+    if (flat.gasMeterId) {
+      await prisma.gasMeter.delete({ where: { id: flat.gasMeterId } }).catch(() => {})
+    }
 
-  return { success: true }
+    return { success: true }
+  } catch (err) {
+    handlePrismaError(err)
+  }
 })

@@ -1,5 +1,7 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { validateParams } from '../../../shared/validators/validate-params'
+import { idParamSchema } from '../../../shared/schemas/common.schema'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -7,10 +9,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const id = getRouterParam(event, 'id')
-  if (!id) {
-    throw createError({ statusCode: 400, message: 'Tenant ID is required' })
-  }
+  const { id } = validateParams(event, idParamSchema)
 
   const tenant = await prisma.tenant.findUnique({
     where: { id },

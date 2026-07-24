@@ -1,5 +1,7 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { validateQuery } from '../../../shared/validators/validate-query'
+import { tenantQuerySchema } from '../../../shared/schemas/tenant.schema'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -7,15 +9,11 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const query = getQuery(event)
-  const search = (query.search as string) || ''
-  const page = Math.max(1, parseInt((query.page as string) || '1'))
-  const pageSize = Math.min(100, Math.max(1, parseInt((query.pageSize as string) || '10')))
-  const unassignedOnly = query.unassigned === 'true'
+  const { search, unassigned, page, pageSize } = validateQuery(event, tenantQuerySchema)
 
   const where: Record<string, unknown> = {}
 
-  if (unassignedOnly) {
+  if (unassigned === 'true') {
     where.flat = null
   }
 

@@ -1,6 +1,8 @@
 import { auth } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
 import { mapFlatDisplay } from '../../utils/mapDisplayValues'
+import { validateQuery } from '../../../shared/validators/validate-query'
+import { flatQuerySchema } from '../../../shared/schemas/flat.schema'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -8,20 +10,15 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const query = getQuery(event)
-  const search = (query.search as string) || ''
-  const floor = query.floor ? parseInt(query.floor as string) : undefined
-  const unassignedOnly = query.unassigned === 'true'
-  const page = Math.max(1, parseInt((query.page as string) || '1'))
-  const pageSize = Math.min(100, Math.max(1, parseInt((query.pageSize as string) || '10')))
+  const { search, floor, unassigned, page, pageSize } = validateQuery(event, flatQuerySchema)
 
   const where: Record<string, unknown> = {}
 
-  if (floor !== undefined && !isNaN(floor)) {
+  if (floor !== undefined) {
     where.floor = floor
   }
 
-  if (unassignedOnly) {
+  if (unassigned === 'true') {
     where.tenant = null
   }
 

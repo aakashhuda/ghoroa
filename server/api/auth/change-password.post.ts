@@ -1,5 +1,7 @@
 import { auth } from '../../utils/auth'
 import { sendEmail } from '../../utils/email'
+import { validateBody } from '../../../shared/validators/validate-body'
+import { changePasswordSchema } from '../../../shared/schemas/auth.schema'
 
 export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({ headers: event.headers })
@@ -7,43 +9,25 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const { currentPassword, newPassword } = await readBody(event)
-
-  if (!currentPassword || !newPassword) {
-    throw createError({
-      statusCode: 400,
-      message: 'Current password and new password are required',
-    })
-  }
-
-  if (newPassword.length < 6) {
-    throw createError({
-      statusCode: 400,
-      message: 'New password must be at least 6 characters',
-    })
-  }
+  const { currentPassword, newPassword } = await validateBody(event, changePasswordSchema)
 
   let result
   try {
     result = await auth.api.changePassword({
       headers: event.headers,
-      body: {
-        currentPassword,
-        newPassword,
-      },
+      body: { currentPassword, newPassword },
     })
   } catch (err: unknown) {
     return {
       success: false,
-      message: err instanceof Error ? err.message : "Failed to change password",
+      message: err instanceof Error ? err.message : 'Failed to change password',
     }
   }
 
   if (result?.error) {
-    return { success: false, message: result.message };
+    return { success: false, message: result.message }
   }
 
-  // Email notification is non-critical; don't fail if it errors
   try {
     await sendEmail({
       to: session.user.email,
