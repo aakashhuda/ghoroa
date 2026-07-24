@@ -5,6 +5,7 @@
     <HomepageFeaturesSection />
     <HomepageStatsSection />
     <HomepageHowItWorksSection />
+    <HomepageComingSoonSection />
     <HomepageTestimonialsSection />
     <HomepageCtaSection />
     <HomepageFooter />

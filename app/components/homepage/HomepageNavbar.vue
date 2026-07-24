@@ -1,5 +1,5 @@
 <template>
-  <header class="homepage-navbar">
+  <header class="homepage-navbar" :class="{ 'is-scrolled': isScrolled }">
     <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
       <!-- Logo -->
       <div class="flex items-center gap-3">
@@ -13,7 +13,8 @@
           v-for="link in navLinks"
           :key="link.label"
           href="#"
-          class="text-sm text-[#5a6075] hover:text-[#16a34a] transition-colors font-medium"
+          class="nav-link"
+          :class="{ active: activeSection === link.target }"
           @click.prevent="scrollToSection(link.target)"
         >
           {{ link.label }}
@@ -36,7 +37,7 @@
         </a-button>
       </div>
 
-      <!-- Mobile Hamburger -->
+      <!-- Mobile -->
       <div class="lg:hidden flex items-center gap-3">
         <a-button type="primary" class="custom-gradient-btn !h-9 !text-xs !px-3" href="/auth/signup">
           Get Started
@@ -81,6 +82,8 @@
 
 <script setup lang="ts">
 const drawerOpen = ref(false)
+const isScrolled = ref(false)
+const activeSection = ref('features')
 
 const navLinks = [
   { label: 'Features', target: 'features' },
@@ -94,6 +97,34 @@ function scrollToSection(id: string) {
     el.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 }
+
+// Track scroll state for navbar blur + active section
+function onScroll() {
+  isScrolled.value = window.scrollY > 16
+
+  // Determine active section
+  const sections = ['features', 'how-it-works', 'roadmap-section']
+  let current = 'features'
+  for (const id of sections) {
+    const el = document.getElementById(id)
+    if (el) {
+      const rect = el.getBoundingClientRect()
+      if (rect.top <= 120) {
+        current = id
+      }
+    }
+  }
+  activeSection.value = current
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll() // initial check
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll)
+})
 </script>
 
 <style scoped>
@@ -102,9 +133,17 @@ function scrollToSection(id: string) {
   top: 0;
   z-index: 50;
   height: 64px;
-  background: #ffffff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.homepage-navbar.is-scrolled {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
 }
 
 .homepage-btn {
@@ -124,6 +163,41 @@ function scrollToSection(id: string) {
   color: #15803d !important;
 }
 
+/* ── Nav Links ──────────────────────────── */
+.nav-link {
+  font-size: 14px;
+  color: #5a6075;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #16a34a, #0891b2);
+  border-radius: 2px;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover {
+  color: #16a34a;
+}
+
+.nav-link.active {
+  color: #16a34a;
+}
+
+.nav-link.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ── Hamburger ──────────────────────────── */
 .hamburger-btn {
   width: 40px;
   height: 40px;
@@ -131,7 +205,7 @@ function scrollToSection(id: string) {
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 8px;
+  border-radius: 10px;
   background: white;
   cursor: pointer;
   font-size: 18px;

@@ -1,20 +1,33 @@
-# Current Feature
+# Current Feature: Homepage Improvement
 
 ## Status
 
-Complete
+In Progress
 
 ## Goals
 
-<!-- - [ ] Goal 1 -->
+- [x] Create reusable `SlideUpReveal` component (IntersectionObserver scroll animations)
+- [x] Hero Section: radial gradient background, dot-grid pattern, real dashboard webp screenshot with float animation
+- [x] Features Section: custom SVG illustrations, enhanced hover micro-interactions, "Coming Soon" badges on future modules
+- [x] Stats Section: animated count-up numbers, glass-morphism stat containers, iconography
+- [x] How It Works: staggered step animations, animated SVG connector line, step illustrations
+- [x] Coming Soon Section: 6 future-feature cards (WhatsApp, CC Camera, Dark Mode, PDF Export, Quote Generator, Mobile App)
+- [x] Testimonials: real avatar images, CSS scroll-snap carousel on mobile, decorative quote marks
+- [x] CTA Section: floating blur orbs, wave curve, button glow pulse, tech credibility logos
+- [x] Footer: newsletter signup input
+- [x] Navbar: backdrop-filter blur on scroll, active section link highlighting
 
 ## References
 
-<!-- - [`@context/features/feature-name-spec.md`](features/feature-name-spec.md) — feature spec -->
+- [`@context/features/homepage-improvement.md`](features/homepage-improvement.md) — full improvement plan
 
 ## Notes
 
-<!-- - Additional context, constraints or details from spec -->
+- Enhance the existing homepage, do not replace it
+- All new images must be optimized .webp or .svg (~89KB total target)
+- Animations should use CSS transforms for GPU acceleration
+- Tailwind CSS v4 (no JS-based config)
+- Ant Design Vue for all interactive components
 
 ## History
 

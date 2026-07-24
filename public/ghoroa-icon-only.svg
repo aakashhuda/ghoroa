@@ -1,12 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-<defs>
-<linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-<stop offset="0%" stop-color="#16a34a"/>
-<stop offset="100%" stop-color="#0891b2"/>
-</linearGradient>
-</defs>
-<rect width="256" height="256" rx="56" fill="url(#g)"/>
-<path d="M52 150 L128 80 L204 150" fill="none" stroke="white" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M90 150 V190 H166 V150" fill="none" stroke="white" stroke-width="16" stroke-linecap="round"/>
-<path d="M170 58 C205 35 225 65 214 96 C204 122 170 136 138 126" fill="none" stroke="white" stroke-width="12" stroke-linecap="round"/>
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="brandGrad" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+  </defs>
+  <!-- Roof -->
+  <path d="M4 22L24 4L44 22" stroke="url(#brandGrad)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Body -->
+  <rect x="14" y="22" width="20" height="20" rx="5" fill="url(#brandGrad)"/>
+  <!-- Door -->
+  <rect x="20" y="31" width="8" height="11" rx="3.5" fill="#ffffff"/>
 </svg>
