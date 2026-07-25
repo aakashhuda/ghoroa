@@ -25,7 +25,7 @@
                 alt="Ghoroa"
                 class="w-8 h-8 flex-shrink-0"
               />
-              <span v-if="!collapsed" class="text-lg font-bold text-gray-900"
+              <span v-if="!sidebarCollapsed" class="text-lg font-bold text-gray-900"
                 >Ghoroa</span
               >
             </div>
