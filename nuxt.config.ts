@@ -3,27 +3,16 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
-  modules: ["@ant-design-vue/nuxt", "@nuxtjs/tailwindcss", "@pinia/nuxt"],
+  modules: ["@ant-design-vue/nuxt", "@nuxtjs/tailwindcss", "@pinia/nuxt", "./modules/antd-components"],
   antd: {
     extractStyle: true,
-    components: [
-      'Alert', 'Avatar', 'Badge', 'Button', 'Checkbox', 'ConfigProvider',
-      'DatePicker', 'Descriptions', 'DescriptionsItem', 'Divider', 'Drawer',
-      'Dropdown', 'Form', 'FormItem', 'Input', 'InputNumber', 'InputPassword',
-      'InputSearch', 'Menu', 'MenuDivider', 'MenuItem', 'MenuItemGroup',
-      'Popconfirm', 'Progress', 'RangePicker', 'Rate', 'Segmented', 'Select',
-      'SelectOption', 'Skeleton', 'SkeletonAvatar', 'Space', 'SubMenu', 'Table',
-      'TabPane', 'Tabs', 'Tag', 'Tooltip',
-    ],
-    icons: [
-      'ArrowDownOutlined', 'ArrowRightOutlined', 'ArrowUpOutlined',
-      'BarChartOutlined', 'BarsOutlined', 'CloudOutlined', 'DashboardOutlined',
-      'DeleteOutlined', 'EditOutlined', 'ExportOutlined', 'EyeOutlined',
-      'GoogleOutlined', 'HomeOutlined', 'IdcardOutlined', 'LeftOutlined',
-      'LockOutlined', 'LogoutOutlined', 'MailOutlined', 'MenuOutlined',
-      'PhoneOutlined', 'PlusOutlined', 'ReloadOutlined', 'SettingOutlined',
-      'TeamOutlined', 'ToolOutlined', 'UserOutlined', 'WalletOutlined',
-    ],
+    components: false,
+    icons: false,
+  },
+  vite: {
+    optimizeDeps: {
+      include: ['better-auth/vue', 'chart.js', 'vue-chartjs'],
+    },
   },
   app: {
     head: {
